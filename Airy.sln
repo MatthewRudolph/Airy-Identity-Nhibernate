@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.FluentNhibernat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Identity.Nhibernate", "src\Dematt.Airy.Identity.Nhibernate\Dematt.Airy.Identity.Nhibernate.csproj", "{5A55DCCF-B3FF-4D59-B792-67938B524712}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Tests", "tests\Dematt.Airy.Tests\Dematt.Airy.Tests.csproj", "{0CEB1500-B026-4639-B147-C2D96665D331}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,6 @@ Global
 		{279E2667-AB36-491B-A7E5-0002925238AB} = {BFA5C328-999B-411D-9B86-BACA63373042}
 		{5E147B32-7DFE-4205-8CBB-ECD768019F80} = {BFA5C328-999B-411D-9B86-BACA63373042}
 		{5A55DCCF-B3FF-4D59-B792-67938B524712} = {BFA5C328-999B-411D-9B86-BACA63373042}
+		{0CEB1500-B026-4639-B147-C2D96665D331} = {8880CD3F-8B56-4335-B407-8DAFD6FF7374}
 	EndGlobalSection
 EndGlobal
