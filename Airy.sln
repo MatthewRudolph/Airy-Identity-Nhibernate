@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Tests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Tests.Identity", "tests\Dematt.Airy.Tests.Identity\Dematt.Airy.Tests.Identity.csproj", "{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Sample.WebSite", "samples\Dematt.Airy.Sample.WebSite\Dematt.Airy.Sample.WebSite.csproj", "{0287871F-2A43-40D5-9B1B-C93AD834F947}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +68,6 @@ Global
 		{5A55DCCF-B3FF-4D59-B792-67938B524712} = {BFA5C328-999B-411D-9B86-BACA63373042}
 		{0CEB1500-B026-4639-B147-C2D96665D331} = {8880CD3F-8B56-4335-B407-8DAFD6FF7374}
 		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B} = {8880CD3F-8B56-4335-B407-8DAFD6FF7374}
+		{0287871F-2A43-40D5-9B1B-C93AD834F947} = {230D8DDD-B4F0-4D11-BDF2-FD709CACAC30}
 	EndGlobalSection
 EndGlobal
