@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/MatthewRudolph/Airy/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/MatthewRudolph/Airy</projectUrl>
+    <iconUrl>https://github.com/MatthewRudolph/Airy/Source/Dematt.Airy.Core/AiryNugetIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>First build of nuget packages.  This is a pre-release package.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>Airy Core NHibernate</tags>
+  </metadata>
+</package>
