@@ -1,15 +1,21 @@
-﻿using System.Data.Entity;
+﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Dematt.Airy.Identity.Nhibernate;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using NHibernate;
 
 namespace Dematt.Airy.Sample.WebSite.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<string, ApplicationLogin, ApplicationRole, string, ApplicationClaim>
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public ApplicationUser()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        public virtual async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -18,16 +24,46 @@ namespace Dematt.Airy.Sample.WebSite.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationRole : IdentityRole<ApplicationUser, string>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationRole()
         {
+            Id = Guid.NewGuid().ToString();
         }
 
-        public static ApplicationDbContext Create()
+        public ApplicationRole(string roleName)
+            : this()
         {
-            return new ApplicationDbContext();
+            Name = roleName;
+        }
+    }
+
+    public class ApplicationLogin : IdentityUserLogin<ApplicationUser>
+    {
+
+    }
+
+    public class ApplicationClaim : IdentityUserClaim<ApplicationUser, int>
+    {
+
+    }
+
+    public class ApplicationUserStore<TUser> : UserStore<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>,
+        IUserStore<ApplicationUser>
+        where TUser : ApplicationUser
+    {
+        public ApplicationUserStore(ISession context)
+            : base(context)
+        {
+        }
+    }
+
+    public class ApplicationRoleStore<TRole> : RoleStore<ApplicationRole, string, ApplicationUser>
+        where TRole : ApplicationRole, new()
+    {
+        public ApplicationRoleStore(ISession context)
+            : base(context)
+        {
         }
     }
 }
