@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 namespace Dematt.Airy.Identity.Nhibernate
 {
     /// <summary>
-    /// The default Cheaha NHibernate implementation of the ASP.NET Identity IUser interface, using a string for the unique key.
+    /// The default Airy NHibernate implementation of the ASP.NET Identity IUser interface, using a string for the unique key.
     /// </summary>
     public class IdentityUser : IdentityUser<string, IdentityUserLogin, IdentityRole, string, IdentityUserClaim>, IUser
     {
@@ -33,7 +33,7 @@ namespace Dematt.Airy.Identity.Nhibernate
     }
 
     /// <summary>
-    /// The base Cheaha NHibernate implementation of the ASP.NET Identity IUser interface.
+    /// The base Airy NHibernate implementation of the ASP.NET Identity IUser interface.
     /// </summary>
     /// <typeparam name="TUserKey">The type to use for the IdentityUser Id field.</typeparam>
     /// <typeparam name="TLogin">The type to use for the Logins collection.</typeparam>

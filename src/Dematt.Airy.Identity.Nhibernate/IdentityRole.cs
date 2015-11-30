@@ -8,7 +8,7 @@ using Dematt.Airy.Identity.Nhibernate.Contracts;
 namespace Dematt.Airy.Identity.Nhibernate
 {
     /// <summary>
-    /// The default Cheaha NHibernate implementation of the ASP.NET Identity IRole interface, using a string for the unique key.
+    /// The default Airy NHibernate implementation of the ASP.NET Identity IRole interface, using a string for the unique key.
     /// </summary>
     public class IdentityRole : IdentityRole<IdentityUser, string>
     {
@@ -32,7 +32,7 @@ namespace Dematt.Airy.Identity.Nhibernate
     }
 
     /// <summary>
-    /// The base Cheaha NHibernate implementation of the ASP.NET Identity IRole interface.
+    /// The base Airy NHibernate implementation of the ASP.NET Identity IRole interface.
     /// </summary>
     /// <typeparam name="TUser">The type to use for the User.</typeparam>
     /// <typeparam name="TRoleKey">The type to use for the IRole Id field.</typeparam>

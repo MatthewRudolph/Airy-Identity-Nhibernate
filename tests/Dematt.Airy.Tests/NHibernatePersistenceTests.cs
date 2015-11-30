@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Dematt.Airy.Tests
 {
     /// <summary>
-    /// NHibernate persistence tests for Cheaha using SQLite.
+    /// NHibernate persistence tests for Airy using SQLite.
     /// </summary>
     [TestFixture]
     public class NHibernatePersistenceTests : BaseInMemoryTest

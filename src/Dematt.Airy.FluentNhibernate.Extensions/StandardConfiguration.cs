@@ -4,7 +4,7 @@ using FluentNHibernate.Automapping;
 namespace Dematt.Airy.FluentNhibernate.Extensions
 {
     /// <summary>
-    /// A default configuration for the Cheaha implementation of auto mapping using FluentNHibernate.
+    /// A default configuration for the Airy implementation of auto mapping using FluentNHibernate.
     /// </summary>
     /// <remarks>
     /// This adds support for the extra attributes such as the <see cref="NotMappedAttribute"/>.

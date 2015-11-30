@@ -4,14 +4,14 @@ using Dematt.Airy.Identity.Nhibernate.Contracts;
 namespace Dematt.Airy.Identity.Nhibernate
 {
     /// <summary>
-    /// The default Cheaha NHibernate entity that represents one specific user claim, for users that have a string based key.
+    /// The default Airy NHibernate entity that represents one specific user claim, for users that have a string based key.
     /// </summary>
     public class IdentityUserClaim : IdentityUserClaim<IdentityUser, int>
     {
     }
 
     /// <summary>
-    /// The base Cheaha NHibernate entity that represents one specific user claim.
+    /// The base Airy NHibernate entity that represents one specific user claim.
     /// </summary>
     /// <typeparam name="TUser">The type to use for the User.</typeparam>
     /// <typeparam name="TClaimKey">The type to use for the IdentityUserClaim Id field.</typeparam>

@@ -1,4 +1,4 @@
-﻿////namespace Dematt.Cheaha.DataNh.Conventions
+﻿////namespace Dematt.Airy.DataNh.Conventions
 ////{
 ////    using FluentNHibernate.Conventions;
 ////    using FluentNHibernate.Conventions.Instances;
