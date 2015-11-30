@@ -15,9 +15,9 @@ NHibenrate implementation of the backing stores for ASP.Net Identity that can ea
 
 ## Acknowledgements ##
 There is already an excellent official [NHibernate Implementation] (https://github.com/nhibernate/NHibernate.AspNet.Identity) of the ASP.Net Identity.
-However it does not currently allow the use of types other than strings for primary keys [Issue 46] (https://github.com/nhibernate/NHibernate.AspNet.Identity/issues/46)
+However it does not currently allow the use of types other than strings for primary keys [Issue 46] (https://github.com/nhibernate/NHibernate.AspNet.Identity/issues/46)  
 As I needed to be able to use Guids for some primary keys I forked it and started to see how I could implement it.
 
-It was a lot harder than I thought especially since I'm not an NHibernate Guru.  I found that I needed to take a different approach to the current implementation and decided it would be easier to do if I started from scratch with a new solution.
-I leant heavily on both the existing [official NHibernate Implementation] (https://github.com/nhibernate/NHibernate.AspNet.Identity) and also the [Microsoft Entity Framework Implementation] (https://aspnetidentity.codeplex.com/)
+It was a lot harder than I thought especially since I'm not an NHibernate Guru.  I found that I needed to take a different approach to the current implementation and decided it would be easier to do if I started from scratch with a new solution.  
+I leant heavily on both the existing [official NHibernate Implementation] (https://github.com/nhibernate/NHibernate.AspNet.Identity) and also the [Microsoft Entity Framework Implementation] (https://aspnetidentity.codeplex.com/)  
 So a huge thank you to those authors particularly https://github.com/milesibastos for their work and for open sourcing it, without them I would never had been able to complete this, my first open source project.
