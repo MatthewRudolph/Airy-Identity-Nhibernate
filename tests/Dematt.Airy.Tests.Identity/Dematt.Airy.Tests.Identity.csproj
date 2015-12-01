@@ -84,8 +84,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="hibernate.cfg.mssql.appveyor.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="hibernate.cfg.mssql.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
