@@ -1,6 +1,26 @@
-﻿# Creates a new database for the tests to use.
-# References:
-#  http://sqlblog.com/blogs/allen_white/archive/2008/04/28/create-database-from-powershell.aspx
+﻿#####################################################################################
+#Date: 		01 December 2015                                                        #
+#Author: 	Matthew Rudolph                                                         #
+#Script:	Creates a new empty database on an SQL server.                          #
+#Version:	1.0																        #
+#####################################################################################
+ <#
+.SYNOPSIS
+    Creates a new empty database on an SQL server.
+.DESCRIPTION
+    Creates a new empty database on an SQL server.
+    Allows the following to be specified.
+        Database name
+        Primary data file size
+        Primary data file growth in percentage
+        Log file size
+        Log file growth in percentage
+.EXAMPLE
+    To create a database on a local instance of SQL Server called SQL2014 called TestDatabase:
+        PS C:\Projects\Airy> .\"CreateSqlDatabase.ps1" 'LOCALHOST\SQL2014' 'TestDatabase'
+.NOTES
+    References: http://sqlblog.com/blogs/allen_white/archive/2008/04/28/create-database-from-powershell.aspx
+#>
 
 [CmdletBinding()]
 Param(
@@ -35,16 +55,14 @@ function EntryPoint()
     {
         [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SqlServer.SMO")  | out-null    
         # Configure database.
-        Write-Host $serverName;
-        Write-Host $databaseDataFileSize;
         $server = new-object -TypeName Microsoft.SqlServer.Management.Smo.Server -argumentlist $serverName;
         $database = new-object -TypeName Microsoft.SqlServer.Management.Smo.Database -argumentlist $server, $databaseName;
 
         # Configure primary filegroup / data file.
-        $primaryFileGroup = new-object ("Microsoft.SqlServer.Management.Smo.FileGroup") ($database, "PRIMARY");
+        $primaryFileGroup = new-object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -argumentlist $database, "PRIMARY";
         $database.FileGroups.Add($primaryFileGroup);
         $primaryFileName = $databaseName;
-        $Primaryfile = new-object ("Microsoft.SqlServer.Management.Smo.DataFile") ($primaryFileGroup, $primaryFileName);
+        $Primaryfile = new-object -TypeName Microsoft.SqlServer.Management.Smo.DataFile -argumentlist $primaryFileGroup, $primaryFileName;
         $primaryFileGroup.Files.Add($Primaryfile);
         $Primaryfile.FileName = $server.Information.MasterDBPath + "\" + $primaryFileName + ".mdf";
         $Primaryfile.Size = [double]($databaseDataFileSize * 1024.0);
@@ -54,7 +72,7 @@ function EntryPoint()
 
         # Configure log file.
         $logName = $databaseName + '_log';
-        $logFile = new-object ('Microsoft.SqlServer.Management.Smo.LogFile') ($database, $logName);
+        $logFile = new-object -TypeName Microsoft.SqlServer.Management.Smo.LogFile -argumentlist $database, $logName;
         $database.LogFiles.Add($logFile);
         $logFile.FileName = $server.Information.MasterDBLogPath + '\' + $logName + '.ldf';
         $logFile.Size = [double]($databaseLogFileSize * 1024.0);
@@ -63,6 +81,14 @@ function EntryPoint()
 
         # Create the database.
         $database.Create();
+
+        Write-Host 'Created database...'
+        Write-Host 'Server:           '$serverName;
+        Write-Host 'Database:         ' $databaseName;
+        Write-Host 'Data file size:   ' $databaseDataFileSize;
+        Write-Host 'Data file growth: ' $databaseDataFileGrowth '%';
+        Write-Host 'Data log size:    ' $databaseLogFileSize;
+        Write-Host 'Data log growth:  ' $databaseLogFileGrowth '%';
 
         exit 0;
     }
