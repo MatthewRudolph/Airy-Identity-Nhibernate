@@ -4,6 +4,10 @@
 #   - All section names are case-sensitive.
 #   - Section names should be unique on each level.
 
+# environment variables
+environment:
+  CurrentTargetVersion: 1.0.0
+
 
 # configuration for release branches.
 -
@@ -11,7 +15,7 @@
     only:
       - /release/.*
   
-  version: 1.0.0
+  version: $env:CurrentTargetVersion
   services: mssql2014  
   assembly_info:
     patch: true
@@ -36,7 +40,7 @@
     except:
       - /release/.*
   
-  version: 1.0.0
+  version: $env:CurrentTargetVersion
   services: mssql2014  
   assembly_info:
     patch: true
