@@ -11,28 +11,27 @@
     only:
       - /release/.*
   
-  -
-    version: 1.0.0.{build}
-    services: mssql2014  
-    assembly_info:
-      patch: true
-      file: '**\AssemblyInfo.*'
-      assembly_version: '{version}'
-      assembly_file_version: '{version}'
-      assembly_informational_version: '{version} Pre-release build'
-    before_build:
-    - ps: nuget restore
-    build:
-      verbosity: minimal
-    before_test:
-    - ps: >-
-        .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
-    
-        If (Test-Path tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml) {
-            Remove-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml;
-        }
-    
-        Rename-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml hibernate.cfg.mssql.xml
+  version: 1.0.0.{build}
+  services: mssql2014  
+  assembly_info:
+    patch: true
+    file: '**\AssemblyInfo.*'
+    assembly_version: '{version}'
+    assembly_file_version: '{version}'
+    assembly_informational_version: '{version} Pre-release build'
+  before_build:
+  - ps: nuget restore
+  build:
+    verbosity: minimal
+  before_test:
+  - ps: >-
+      .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+  
+      If (Test-Path tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml) {
+          Remove-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml;
+      }
+  
+      Rename-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml hibernate.cfg.mssql.xml
 
 
 # configuration for all other branches (all but the release branches).
@@ -40,26 +39,25 @@
   branches:
     except:
       - /release/.*
-
-  -
-    version: 1.0.0.{build}
-    services: mssql2014  
-    assembly_info:
-      patch: true
-      file: '**\AssemblyInfo.*'
-      assembly_version: '{version}'
-      assembly_file_version: '{version}'
-      assembly_informational_version: '{version}'
-    before_build:
-    - ps: nuget restore
-    build:
-      verbosity: minimal
-    before_test:
-    - ps: >-
-        .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
-    
-        If (Test-Path tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml) {
-            Remove-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml;
-        }
-    
-        Rename-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml hibernate.cfg.mssql.xml  
+  
+  version: 1.0.0.{build}
+  services: mssql2014  
+  assembly_info:
+    patch: true
+    file: '**\AssemblyInfo.*'
+    assembly_version: '{version}'
+    assembly_file_version: '{version}'
+    assembly_informational_version: '{version}'
+  before_build:
+  - ps: nuget restore
+  build:
+    verbosity: minimal
+  before_test:
+  - ps: >-
+      .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+  
+      If (Test-Path tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml) {
+          Remove-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml;
+      }
+  
+      Rename-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml hibernate.cfg.mssql.xml  
