@@ -33,6 +33,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0A20546D-4ABA-4A57-9962-8BF59CCE6B25}"
 	ProjectSection(SolutionItems) = preProject
 		tools\CreateSqlDatabase.ps1 = tools\CreateSqlDatabase.ps1
+		tools\ReplaceFile.ps1 = tools\ReplaceFile.ps1
 	EndProjectSection
 EndProject
 Global
