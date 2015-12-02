@@ -5,8 +5,9 @@
 #   - Section names should be unique on each level.
 
 # environment variables
-environment:
-  CurrentTargetVersion: 1.0.0
+-
+  environment:
+    CurrentTargetVersion: 1.0.0
 
 
 # configuration for release branches.
