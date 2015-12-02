@@ -26,6 +26,7 @@
   before_test:
   - ps: >-
       .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+
       .\tools\ReplaceFile.ps1 'hibernate.cfg.mssql.appveyor.xml' 'hibernate.cfg.mssql.xml'
 
 
@@ -50,4 +51,5 @@
   before_test:
   - ps: >-
       .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+
       .\tools\ReplaceFile.ps1 'hibernate.cfg.mssql.appveyor.xml' 'hibernate.cfg.mssql.xml'
