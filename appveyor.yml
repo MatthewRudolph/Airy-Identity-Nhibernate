@@ -11,14 +11,14 @@
     only:
       - /release/.*
   
-  version: 1.0.0.{build}
+  version: 1.0.0
   services: mssql2014  
   assembly_info:
     patch: true
     file: '**\AssemblyInfo.*'
     assembly_version: '{version}'
-    assembly_file_version: '{version}'
-    assembly_informational_version: '{version} Pre-release build'
+    assembly_file_version: '{version}.{build}'
+    assembly_informational_version: '{version}.-CI{build}'
   before_build:
   - ps: nuget restore
   build:
@@ -36,14 +36,14 @@
     except:
       - /release/.*
   
-  version: 1.0.0.{build}
+  version: 1.0.0
   services: mssql2014  
   assembly_info:
     patch: true
     file: '**\AssemblyInfo.*'
     assembly_version: '{version}'
-    assembly_file_version: '{version}'
-    assembly_informational_version: '{version}'
+    assembly_file_version: '{version}.{build}'
+    assembly_informational_version: '{version}.{build}'
   before_build:
   - ps: nuget restore
   build:
