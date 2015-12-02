@@ -48,7 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dematt.Cheaha.Core.nuspec">
+    <None Include="Dematt.Airy.Core.nuspec">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
