@@ -1,10 +1,10 @@
+# Notes:
+#   - Minimal appveyor.yml file is an empty file. All sections are optional.
+#   - Indent each level of configuration with 2 spaces. Do not use tabs!
+#   - All section names are case-sensitive.
+#   - Section names should be unique on each level.
+
 version: 1.0.0.{build}
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
 services: mssql2014
 before_build:
 - ps: nuget restore
@@ -19,3 +19,27 @@ before_test:
     }
 
     Rename-Item tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml hibernate.cfg.mssql.xml
+
+-
+  branches:
+    only:
+      - /release/.*
+
+  assembly_info:
+    patch: true
+    file: '**\AssemblyInfo.*'
+    assembly_version: '{version}'
+    assembly_file_version: '{version}'
+    assembly_informational_version: '{version} Pre-release build'
+
+-
+  branches:
+    except:
+      - /release/.*
+
+  assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
