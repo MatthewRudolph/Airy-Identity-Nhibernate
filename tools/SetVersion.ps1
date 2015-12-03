@@ -64,12 +64,6 @@ function SetAssemblyVersion()
 	$foundFiles = get-childitem .\*AssemblyInfo.cs -recurse
 	foreach( $file in $foundFiles )
 	{
-		if ($file.Name -eq $globalAssemblyFile)
-		{
-			#Don't patch the global info.
-			continue;
-		}
-
 		$content = Get-Content "$file";
 		Write-Output "Patching $file";
 		$content -replace 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $fileAssemblyVersion `
@@ -79,6 +73,20 @@ function SetAssemblyVersion()
 	}
 }
 
+function SetNugetVersion()
+{
+	$nugetFoundFiles = get-childitem .\*.nuspec -recurse
+	foreach( $nugetSpecFile in $nugetFoundFiles )
+	{
+		$nugetSpecContent = [xml](Get-Content (Resolve-Path $nugetSpecFile));		
+		Write-Output "Patching $nugetSpecFile";
+		$nugetSpecContent.package.metadata.version = $NugetVersion;
+		$nugetSpecContent.Save((Resolve-Path $nugetSpecFile));
+		Write-Output "Completed patching $nugetSpecFile";
+	}
+}
+
 CalculateVersions;
 SetAssemblyVersion;
+SetNugetVersion
 Exit 1;
