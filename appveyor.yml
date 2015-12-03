@@ -13,14 +13,11 @@
   
   version: 1.0.0.{build}
   services: mssql2014  
-  assembly_info:
-    patch: true
-    file: '**\AssemblyInfo.*'
-    assembly_version: '{version}'
-    assembly_file_version: '{version}'
-    assembly_informational_version: '{version} Pre-release build'
   before_build:
-  - ps: nuget restore
+  - ps: >-
+      nuget restore
+
+      .\tools\SetVersion.ps1 {version} Alpha
   build:
     verbosity: minimal
   before_test:
