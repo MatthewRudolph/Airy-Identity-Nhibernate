@@ -52,4 +52,4 @@
   - ps: >-
       .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
 
-      .\tools\ReplaceFile.ps1 'tests\\Dematt.Airy.Tests.Identity\\hibernate.cfg.mssql.appveyor.xml' 'tests\\Dematt.Airy.Tests.Identity\\hibernate.cfg.mssql.xml'
+      .\tools\ReplaceFile.ps1 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml' 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml'

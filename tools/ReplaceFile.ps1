@@ -10,6 +10,7 @@
 .DESCRIPTION
 	Replaces one file with another.
 	Takes two parameters source and target, target does not have to exist but if it does it is deleted and then replaced with the source file.
+	Both file names must include the path, either in full or relative to the executing directory.
 .EXAMPLE    
 		PS C:\Projects\Airy> .\"ReplaceFile.ps1" 'hibernate.cfg.mssql.appveyor.xml' 'hibernate.cfg.mssql.xml'
 .NOTES
@@ -32,7 +33,7 @@ function EntryPoint(){
 		Remove-Item $target;
 	}
   
-	Rename-Item $source $target;
+	Copy-Item $source -Destination $target;
 }
 
 EntryPoint;
