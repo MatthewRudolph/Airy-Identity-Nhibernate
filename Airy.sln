@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0A20546D
 	ProjectSection(SolutionItems) = preProject
 		tools\CreateSqlDatabase.ps1 = tools\CreateSqlDatabase.ps1
 		tools\ReplaceFile.ps1 = tools\ReplaceFile.ps1
+		tools\SetVersion.ps1 = tools\SetVersion.ps1
 	EndProjectSection
 EndProject
 Global
