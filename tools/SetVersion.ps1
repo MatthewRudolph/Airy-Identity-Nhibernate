@@ -1,4 +1,4 @@
-$globalAssemblyVersion = "1.0.0.1001"
+$globalAssemblyVersion = 'AssemblyVersion("1.0.0.1001")'
 $releaseType = "Release"
 
 $hasAssemblyVersion = "'"+$globalAssemblyVersion+"'" -match 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)'
@@ -30,14 +30,14 @@ else
 
 $AssemblyVersion = "$major.$minor.$patch.0"
 $AssemblyFileVersion = "$major.$minor.$patch.$build"
-$AssemblyInformationalVersion = "$major.$minor.$patch-$releaseType" + "Build$build"
+$AssemblyInformationalVersion = "$major.$minor.$patch-$releaseType$build"
 $NugetVersion = "$major.$minor.$patch"
 if ($releaseType -notmatch "^Release$")
 {
 	$NugetVersion = "$major.$minor.$patch-$releaseType$build"
 }
 
-Write-Host "Using Assembly Version: $AssemblyVersion ."
+Write-Host "Using Assembly Version: $AssemblyVersion"
 Write-Host "Using File Version: $AssemblyFileVersion"
 Write-Host "Using Informational Version: $AssemblyInformationalVersion"
 Write-Host "Using Nuget Version: $nugetVersion"
@@ -82,16 +82,16 @@ foreach( $file in $foundFiles )
 			$afv = "$fileMajor.$fileMinor.$filePatch.$fileBuild"
 			$aiv = "$afv-master" + ("AREALLYLONGHASH").Substring(0, 8)
 			
-			Write-Host "•	Specific AssemblyVersion found, using that instead: $fileMajor.$fileMinor.$filePatch.$fileBuild"
-			Write-Host "	○	Patched File Version: $afv"
-			Write-Host "	○	Patched Informational Version: $aiv"
+			Write-Host "Specific AssemblyVersion found, using that instead: $fileMajor.$fileMinor.$filePatch.$fileBuild"
+			Write-Host "Patched File Version: $afv"
+			Write-Host "Patched Informational Version: $aiv"
 			
 			$afv = 'AssemblyFileVersion("' + $afv + '")';
 			$aiv = 'AssemblyInformationalVersion("' + $aiv + '")';
 		}
 		else
 		{
-			Add-AppveyorMessage -Message "• Specific AssemblyVersion found, but it's not formatted correctly, skipping."
+			Write-Host "Specific AssemblyVersion found, but it's not formatted correctly, skipping."
 		}
 	}
 	
