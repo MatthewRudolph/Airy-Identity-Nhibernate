@@ -17,7 +17,7 @@
   - ps: >-
       nuget restore
 
-      .\tools\SetVersion.ps1 $env:APPVEYOR_BUILD_VERSION Alpha
+      .\tools\SetVersion.ps1 $(env:APPVEYOR_BUILD_VERSION) Alpha
   build:
     verbosity: minimal
   before_test:
@@ -45,7 +45,7 @@
   - ps: >-
       nuget restore
 
-      .\tools\SetVersion.ps1 $env:APPVEYOR_BUILD_VERSION Alpha
+      .\tools\SetVersion.ps1 $(env:APPVEYOR_BUILD_VERSION) Alpha
   build:
     verbosity: minimal
   before_test:
