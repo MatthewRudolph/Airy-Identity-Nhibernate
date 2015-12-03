@@ -43,9 +43,17 @@
 #    assembly_informational_version: '{version}'
   before_build:
   - ps: >-
+      Write-Host $(env:APPVEYOR_BUILD_VERSION)
+
+      Write-Host $env:APPVEYOR_BUILD_VERSION
+
+      Write-Host {version}
+
+      Write-Host {build}
+
       nuget restore
 
-      .\tools\SetVersion.ps1 $(env:APPVEYOR_BUILD_VERSION) Alpha
+      .\tools\SetVersion.ps1 1.0.0.{build} Alpha
   build:
     verbosity: minimal
   before_test:
