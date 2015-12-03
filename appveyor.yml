@@ -15,7 +15,15 @@
   services: mssql2014  
   before_build:
   - ps: >-
+      ## To print the environment varible to the console just type it's name
+
+      $env:APPVEYOR_BUILD_VERSION      
+
       nuget restore
+
+      $versionToUse = $env:APPVEYOR_BUILD_VERSION
+
+      .\tools\SetVersion.ps1 $versionToUse Alpha
 
       .\tools\SetVersion.ps1 $(env:APPVEYOR_BUILD_VERSION) Alpha
   build:
@@ -43,9 +51,7 @@
 #    assembly_informational_version: '{version}'
   before_build:
   - ps: >-
-      $env:Path
-      
-      $env:APPVEYOR_ACCOUNT_NAME
+      ## To print the environment varible to the console just type it's name
 
       $env:APPVEYOR_BUILD_VERSION      
 
