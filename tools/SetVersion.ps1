@@ -1,12 +1,15 @@
-$globalAssemblyVersion = 'AssemblyVersion("1.0.0.1001")'
+$globalAssemblyVersion = '17.23.1.1001'
 $releaseType = "Release"
 
-$hasAssemblyVersion = "'"+$globalAssemblyVersion+"'" -match 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)'
+#Regex to match exactly 4 part version:
+$hasAssemblyVersion = "'"+$globalAssemblyVersion+"'" -match '([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)'
+
+#Regex to match 2, 3 or 4 part version:
+#$hasAssemblyVersion = "'"+$globalAssemblyVersion+"'" -match '[0-9]+(\.([0-9]+|\*)){1,3}'
 
 if (!$hasAssemblyVersion)
 {
-	Write-Host "No version found, using 0.1.0.1000 instead."
-	
+	Write-Host "No version found, using 0.1.0.1000 instead."	
 	$major=0
 	$minor=1
 	$patch=0 ## build
@@ -14,7 +17,8 @@ if (!$hasAssemblyVersion)
 }
 else
 {
-	$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<patch>([0-9])))?(\.(?<build>([0-9])))?"
+	$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<patch>[0-9]+)\.(?<build>[0-9]+)"
+	##$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<patch>([0-9])))?(\.(?<build>([0-9])))?"
 	
 	if (!$assemblyVersionFormattedCorrectly) 
 	{
