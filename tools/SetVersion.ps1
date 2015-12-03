@@ -9,11 +9,8 @@ Param(
 	$releaseType = "Release"
 )
 
-function SetAssemblyVersion()
+function CalculateVersions()
 {
-	#$version = '17.23.2.1004';
-	#$releaseType = "Alpha";
-
 	#Regex to match exactly 4 part version:
 	$hasVersion = "'"+$version+"'" -match '([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)';
 
@@ -27,9 +24,8 @@ function SetAssemblyVersion()
 	}
 	else
 	{
-		$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<patch>[0-9]+)\.(?<build>[0-9]+)"
-	
-		if (!$assemblyVersionFormattedCorrectly) 
+		$versionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<patch>[0-9]+)\.(?<build>[0-9]+)"	
+		if (!$versionFormattedCorrectly) 
 		{
 			Write-Output "The supplied version is not formatted correctly: " $version
 			return;
@@ -41,23 +37,25 @@ function SetAssemblyVersion()
 		$build=$matches['build'] -as [int]
 	}
 
-	$AssemblyVersion = "$major.$minor.$patch.0"
-	$AssemblyFileVersion = "$major.$minor.$patch.$build"
-	$AssemblyInformationalVersion = "$major.$minor.$patch-$releaseType$build"
-	$NugetVersion = "$major.$minor.$patch"
+	$Script:AssemblyVersion = "$major.$minor.$patch.0"
+	$Script:AssemblyFileVersion = "$major.$minor.$patch.$build"
+	$Script:AssemblyInformationalVersion = "$major.$minor.$patch-$releaseType$build"
+	$Script:NugetVersion = "$major.$minor.$patch"
 	if ($releaseType -notmatch "^Release$")
 	{
-		$NugetVersion = "$major.$minor.$patch-$releaseType$build"
+		$Script:NugetVersion = "$major.$minor.$patch-$releaseType$build"
 	}
 
 	Write-Output "Using Assembly Version: $AssemblyVersion"
 	Write-Output "Using File Version: $AssemblyFileVersion"
 	Write-Output "Using Informational Version: $AssemblyInformationalVersion"
 	Write-Output "Using Nuget Version: $nugetVersion"
+}
 
+function SetAssemblyVersion()
+{
 	#$AssemblyFileVersion = "$major.$minor.$env:APPVEYOR_BUILD_NUMBER"
 	#$AssemblyInformationalVersion = "$AssemblyFileVersion-$env:APPVEYOR_REPO_SCM" + ($env:APPVEYOR_REPO_COMMIT).Substring(0, 8)
-
 
 	$fileAssemblyVersion = 'AssemblyVersion("' + $AssemblyVersion + '")';
 	$fileFileVersion = 'AssemblyFileVersion("' + $AssemblyFileVersion + '")';
@@ -88,4 +86,5 @@ function SetAssemblyVersion()
 	}
 }
 
+CalculateVersions;
 SetAssemblyVersion;
