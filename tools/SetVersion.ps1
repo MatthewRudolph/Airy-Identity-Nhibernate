@@ -50,8 +50,9 @@ Write-Host "Using Nuget Version: $nugetVersion"
 #$AssemblyInformationalVersion = "$AssemblyFileVersion-$env:APPVEYOR_REPO_SCM" + ($env:APPVEYOR_REPO_COMMIT).Substring(0, 8)
 
 
-$fileVersion = 'AssemblyFileVersion("' + $AssemblyFileVersion + '")';
-$informationalVersion = 'AssemblyInformationalVersion("' + $AssemblyInformationalVersion + '")';
+$fileAssemblyVersion = 'AssemblyVersion("' + $AssemblyVersion + '")';
+$fileFileVersion = 'AssemblyFileVersion("' + $AssemblyFileVersion + '")';
+$fileInformationalVersion = 'AssemblyInformationalVersion("' + $AssemblyInformationalVersion + '")';
 
 $foundFiles = get-childitem .\*AssemblyInfo.cs -recurse  
 foreach( $file in $foundFiles )  
@@ -66,39 +67,11 @@ foreach( $file in $foundFiles )
 	
 	Write-Host "Patching $file"
 	
-	$afv = $fileVersion
-	$aiv = $informationalVersion
+	$av = $fileAssemblyVersion
+	$afv = $fileFileVersion
+	$aiv = $fileInformationalVersion	
 	
-	$hasFileAssemblyVersion = "'"+$content+"'" -match 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)'
-
-	if ($hasFileAssemblyVersion)
-	{
-		$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<patch>([0-9])))?(\.(?<build>([0-9])))?"
-
-		if ($assemblyVersionFormattedCorrectly) 
-		{
-			$fileMajor=$matches['major'] -as [int]
-			$fileMinor=$matches['minor'] -as [int]	
-			$filePatch=$matches['patch'] -as [int]
-			$fileBuild=$matches['build'] -as [int]	
-			
-			
-			$afv = "$fileMajor.$fileMinor.$filePatch.$fileBuild"
-			$aiv = "$afv-master" + ("AREALLYLONGHASH").Substring(0, 8)
-			
-			Write-Host "Specific AssemblyVersion found, using that instead: $fileMajor.$fileMinor.$filePatch.$fileBuild"
-			Write-Host "Patched File Version: $afv"
-			Write-Host "Patched Informational Version: $aiv"
-			
-			$afv = 'AssemblyFileVersion("' + $afv + '")';
-			$aiv = 'AssemblyInformationalVersion("' + $aiv + '")';
-		}
-		else
-		{
-			Write-Host "Specific AssemblyVersion found, but it's not formatted correctly, skipping."
-		}
-	}
-	
-	$content -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $afv `
-			 -replace 'AssemblyInformationalVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $aiv | Set-Content "$file"
+	$content -replace 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $av `
+			 -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $afv `
+			 -replace 'AssemblyInformationalVersion\("[0-9]+(\.([0-9]+|\*)){1,3}.*"\)', $aiv | Set-Content "$file"
 }
