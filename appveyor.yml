@@ -43,6 +43,12 @@
 #    assembly_informational_version: '{version}'
   before_build:
   - ps: >-
+      Write-Host $env:Path
+
+      Write-Host $env:APPVEYOR_ACCOUNT_NAME
+
+      Write-Host $env:APPVEYOR_BUILD_VERSION
+
       Write-Host '$appveyor_build_version'
 
       Write-Host '$(appveyor_build_version)'
