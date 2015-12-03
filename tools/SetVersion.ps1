@@ -89,4 +89,4 @@ function SetNugetVersion()
 CalculateVersions;
 SetAssemblyVersion;
 SetNugetVersion
-Exit 1;
+Exit 0;
