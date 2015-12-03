@@ -1,42 +1,50 @@
-$globalAssemblyFile = "GlobalAssemblyInfo.cs"
-$globalAssemblyVersion = Get-Content .\$globalAssemblyFile
+$globalAssemblyVersion = "1.0.0.1001"
+$releaseType = "Release"
 
 $hasAssemblyVersion = "'"+$globalAssemblyVersion+"'" -match 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)'
 
 if (!$hasAssemblyVersion)
 {
-	Add-AppveyorMessage -Message "No AssemblyVersion found, using 1.0.0.0 instead."
+	Write-Host "No version found, using 0.1.0.1000 instead."
 	
-	$major=1
-	$minor=0
-	$build=0 ##Patch
-	$revision=0 ##Build
+	$major=0
+	$minor=1
+	$patch=0 ## build
+	$build=1000 ## revision
 }
 else
 {
-	$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<build>([0-9])))?(\.(?<revision>([0-9])))?"
+	$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<patch>([0-9])))?(\.(?<build>([0-9])))?"
 	
 	if (!$assemblyVersionFormattedCorrectly) 
 	{
-		Add-AppveyorMessage -Message "The Global Assembly Version is not formatted correctly."
+		Write-Host "The supplied version is not formatted correctly: " $globalAssemblyVersion
 		return;
 	}
 	
 	$major=$matches['major'] -as [int]
 	$minor=$matches['minor'] -as [int]
+	$patch=$matches['patch'] -as [int]
 	$build=$matches['build'] -as [int]
-	$revision=$matches['revision'] -as [int]
 }
 
-$AssemblyVersion = "$major.$minor.$build.$revision"
+$AssemblyVersion = "$major.$minor.$patch.0"
+$AssemblyFileVersion = "$major.$minor.$patch.$build"
+$AssemblyInformationalVersion = "$major.$minor.$patch-$releaseType" + "Build$build"
+$NugetVersion = "$major.$minor.$patch"
+if ($releaseType -notmatch "^Release$")
+{
+	$NugetVersion = "$major.$minor.$patch-$releaseType$build"
+}
 
-Add-AppveyorMessage -Message "Global Assembly Version: $AssemblyVersion ."
+Write-Host "Using Assembly Version: $AssemblyVersion ."
+Write-Host "Using File Version: $AssemblyFileVersion"
+Write-Host "Using Informational Version: $AssemblyInformationalVersion"
+Write-Host "Using Nuget Version: $nugetVersion"
 
-$AssemblyFileVersion = "$major.$minor.$env:APPVEYOR_BUILD_NUMBER"
-$AssemblyInformationalVersion = "$AssemblyFileVersion-$env:APPVEYOR_REPO_SCM" + ($env:APPVEYOR_REPO_COMMIT).Substring(0, 8)
+#$AssemblyFileVersion = "$major.$minor.$env:APPVEYOR_BUILD_NUMBER"
+#$AssemblyInformationalVersion = "$AssemblyFileVersion-$env:APPVEYOR_REPO_SCM" + ($env:APPVEYOR_REPO_COMMIT).Substring(0, 8)
 
-Add-AppveyorMessage -Message "Patched File Version: $AssemblyFileVersion"
-Add-AppveyorMessage -Message "Patched Informational Version: $AssemblyInformationalVersion"
 
 $fileVersion = 'AssemblyFileVersion("' + $AssemblyFileVersion + '")';
 $informationalVersion = 'AssemblyInformationalVersion("' + $AssemblyInformationalVersion + '")';
@@ -52,7 +60,7 @@ foreach( $file in $foundFiles )
 
 	$content = Get-Content "$file"
 	
-	Add-AppveyorMessage -Message "Patching $file"
+	Write-Host "Patching $file"
 	
 	$afv = $fileVersion
 	$aiv = $informationalVersion
@@ -61,22 +69,22 @@ foreach( $file in $foundFiles )
 
 	if ($hasFileAssemblyVersion)
 	{
-		$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<build>([0-9])))?(\.(?<revision>([0-9])))?"
+		$assemblyVersionFormattedCorrectly = $matches[0] -match "(?<major>[0-9]+)\.(?<minor>[0-9])+(\.(?<patch>([0-9])))?(\.(?<build>([0-9])))?"
 
 		if ($assemblyVersionFormattedCorrectly) 
 		{
 			$fileMajor=$matches['major'] -as [int]
 			$fileMinor=$matches['minor'] -as [int]	
-			$fileBuild=$matches['build'] -as [int]
-			$fileRevision=$matches['revision'] -as [int]	
+			$filePatch=$matches['patch'] -as [int]
+			$fileBuild=$matches['build'] -as [int]	
 			
 			
-			$afv = "$fileMajor.$fileMinor.$env:APPVEYOR_BUILD_NUMBER"
-			$aiv = "$afv-$env:APPVEYOR_REPO_SCM" + ($env:APPVEYOR_REPO_COMMIT).Substring(0, 8)
+			$afv = "$fileMajor.$fileMinor.$filePatch.$fileBuild"
+			$aiv = "$afv-master" + ("AREALLYLONGHASH").Substring(0, 8)
 			
-			Add-AppveyorMessage -Message "•	Specific AssemblyVersion found, using that instead: $fileMajor.$fileMinor.$fileBuild.$fileRevision ."
-			Add-AppveyorMessage -Message "	○	Patched File Version: $afv"
-			Add-AppveyorMessage -Message "	○	Patched Informational Version: $aiv"
+			Write-Host "•	Specific AssemblyVersion found, using that instead: $fileMajor.$fileMinor.$filePatch.$fileBuild"
+			Write-Host "	○	Patched File Version: $afv"
+			Write-Host "	○	Patched Informational Version: $aiv"
 			
 			$afv = 'AssemblyFileVersion("' + $afv + '")';
 			$aiv = 'AssemblyInformationalVersion("' + $aiv + '")';
