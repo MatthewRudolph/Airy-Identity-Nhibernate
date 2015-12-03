@@ -47,27 +47,13 @@
       
       $env:APPVEYOR_ACCOUNT_NAME
 
-      $env:APPVEYOR_BUILD_VERSION
-
-      Write-Host '$appveyor_build_version'
-
-      Write-Host '$(appveyor_build_version)'
-
-      Write-Host '$APPVEYOR_BUILD_VERSION'
-
-      Write-Host '$(APPVEYOR_BUILD_VERSION)'
-
-      Write-Host '$env:appveyor_build_version'
-
-      Write-Host '$(env:appveyor_build_version)'      
-
-      Write-Host '{version}'
-
-      Write-Host '{build}'
+      $env:APPVEYOR_BUILD_VERSION      
 
       nuget restore
 
-      .\tools\SetVersion.ps1 1.0.0.{build} Alpha
+      $versionToUse = $env:APPVEYOR_BUILD_VERSION
+
+      .\tools\SetVersion.ps1 $versionToUse Alpha
   build:
     verbosity: minimal
   before_test:
