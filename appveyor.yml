@@ -9,10 +9,12 @@
 -
   branches:
     only:
-      - /release/.*
+      - /release.*/
   
   version: 1.0.0.{build}
-  services: mssql2014  
+  services: mssql2014
+  nuget:
+    project_feed: true
   before_build:
   - ps: >-
       $versionToUse = $env:APPVEYOR_BUILD_VERSION
@@ -21,6 +23,7 @@
       
       nuget restore
   build:
+    publish_nuget: true
     verbosity: minimal
   before_test:
   - ps: >-
@@ -33,7 +36,7 @@
 -
   branches:
     except:
-      - /release/.*
+      - /release.*/
   
   version: 1.0.0.{build}
   services: mssql2014  
