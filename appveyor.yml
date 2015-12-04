@@ -12,9 +12,7 @@
       - /release.*/
   
   version: 1.0.0.{build}
-  services: mssql2014
-  nuget:
-    project_feed: true
+  services: mssql2014  
   before_build:
   - ps: >-
       $versionToUse = $env:APPVEYOR_BUILD_VERSION
