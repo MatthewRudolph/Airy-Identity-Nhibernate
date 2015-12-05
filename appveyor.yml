@@ -11,7 +11,7 @@
       - master
   
   version: 1.0.0.{build}
-  services: mssql2014  
+  services: mssql2014
   before_build:
   - ps: >-
       $versionToUse = $env:APPVEYOR_BUILD_VERSION
@@ -35,7 +35,7 @@
       - /release.*/
   
   version: 1.0.0.{build}
-  services: mssql2014  
+  services: mssql2014
   before_build:
   - ps: >-
       $versionToUse = $env:APPVEYOR_BUILD_VERSION
@@ -52,7 +52,6 @@
 
       .\tools\ReplaceFile.ps1 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml' 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml'
 
-
 ### CONFIGURATION FOR ALL OTHER BRANCHES (i.e. dev, feature and hotfix) ###
 -
   branches:
@@ -61,13 +60,7 @@
       - /release.*/
   
   version: 1.0.0.{build}
-  services: mssql2014  
-#  assembly_info:
-#    patch: true
-#    file: '**\AssemblyInfo.*'
-#    assembly_version: '{version}'
-#    assembly_file_version: '{version}'
-#    assembly_informational_version: '{version}'
+  services: mssql2014
   before_build:
   - ps: >-
       $versionToUse = $env:APPVEYOR_BUILD_VERSION
