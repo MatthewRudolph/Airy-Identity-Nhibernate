@@ -69,6 +69,7 @@
       
       nuget restore
   build:
+    publish_nuget: true
     verbosity: minimal
   before_test:
   - ps: >-
