@@ -1,0 +1,77 @@
+# Notes:
+#   - Minimal appveyor.yml file is an empty file. All sections are optional.
+#   - Indent each level of configuration with 2 spaces. Do not use tabs!
+#   - All section names are case-sensitive.
+#   - Section names should be unique on each level.
+
+### CONFIGURATION FOR MASTER BRANCH (Live Releases) ###
+-
+  branches:
+    only:
+      - master
+  
+  version: 1.0.0.{build}
+  services: mssql2014
+  before_build:
+  - ps: >-
+      $versionToUse = $env:APPVEYOR_BUILD_VERSION
+
+      .\tools\SetVersion.ps1 $versionToUse
+      
+      nuget restore
+  build:
+    publish_nuget: true
+    verbosity: minimal
+  before_test:
+  - ps: >-
+      .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+
+      .\tools\ReplaceFile.ps1 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml' 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml'
+
+### CONFIGURATION FOR RELEASE BRANCHES (Pre-release builds and deployments) ###
+-
+  branches:
+    only:
+      - /release.*/
+  
+  version: 1.0.0.{build}
+  services: mssql2014
+  before_build:
+  - ps: >-
+      $versionToUse = $env:APPVEYOR_BUILD_VERSION
+
+      .\tools\SetVersion.ps1 $versionToUse Beta
+      
+      nuget restore
+  build:
+    publish_nuget: true
+    verbosity: minimal
+  before_test:
+  - ps: >-
+      .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+
+      .\tools\ReplaceFile.ps1 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml' 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml'
+
+### CONFIGURATION FOR ALL OTHER BRANCHES (i.e. dev, feature and hotfix) ###
+-
+  branches:
+    except:
+      - master
+      - /release.*/
+  
+  version: 1.0.0.{build}
+  services: mssql2014
+  before_build:
+  - ps: >-
+      $versionToUse = $env:APPVEYOR_BUILD_VERSION
+
+      .\tools\SetVersion.ps1 $versionToUse Alpha
+      
+      nuget restore
+  build:
+    verbosity: minimal
+  before_test:
+  - ps: >-
+      .\tools\CreateSqlDatabase.ps1 'LOCALHOST\SQL2014' 'IdentityNhibernate'
+
+      .\tools\ReplaceFile.ps1 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.appveyor.xml' 'tests\Dematt.Airy.Tests.Identity\hibernate.cfg.mssql.xml'
