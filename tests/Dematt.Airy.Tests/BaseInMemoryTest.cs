@@ -87,7 +87,7 @@ namespace Dematt.Airy.Tests
 
         private HbmMapping GetMappingsForSqlite()
         {
-            // Map all classes in Dematt.Cheaha.Tests.Domain namespace, making sure to exclude any abstract classes.
+            // Map all classes in Dematt.Airy.Tests.Domain namespace, making sure to exclude any abstract classes.
             var type = typeof(SimpleDomainObject);
             var types = type.Assembly.GetExportedTypes()
                 .Where(t => t.Namespace == type.Namespace && t.IsAbstract == false);

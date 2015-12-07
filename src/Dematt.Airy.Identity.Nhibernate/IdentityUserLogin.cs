@@ -4,14 +4,14 @@ using Dematt.Airy.Identity.Nhibernate.Contracts;
 namespace Dematt.Airy.Identity.Nhibernate
 {
     /// <summary>
-    /// The Cheaha NHibernate entity for a user's login. (i.e. Facebook, Google), for users that have a string based key.
+    /// The Airy NHibernate entity for a user's login. (i.e. Facebook, Google), for users that have a string based key.
     /// </summary>
     public class IdentityUserLogin : IdentityUserLogin<IdentityUser>
     {
     }
 
     /// <summary>
-    /// The Cheaha NHibernate entity for a user's login. (i.e. Facebook, Google).
+    /// The Airy NHibernate entity for a user's login. (i.e. Facebook, Google).
     /// </summary>
     /// <typeparam name="TUser">The type used for the user property.</typeparam>
     public abstract class IdentityUserLogin<TUser> : IIdentityUserLogin<TUser>

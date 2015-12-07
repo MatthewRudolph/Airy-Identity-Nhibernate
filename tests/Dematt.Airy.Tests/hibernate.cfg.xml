@@ -9,7 +9,7 @@
       NHibernate.Driver.SQLite20Driver
     </property>
     <property name="connection.connection_string">
-      Data Source=CheahaCore.sqlite;Version=3;New=True;
+      Data Source=AiryCore.sqlite;Version=3;New=True;
     </property>
     <property name="connection.release_mode">on_close</property>
     <property name="show_sql">true</property>
