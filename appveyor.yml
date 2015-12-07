@@ -10,7 +10,7 @@
     only:
       - master
   
-  version: 1.0.0.{build}
+  version: 1.1.0.{build}
   services: mssql2014
   before_build:
   - ps: >-
@@ -34,7 +34,7 @@
     only:
       - /release.*/
   
-  version: 1.0.0.{build}
+  version: 1.1.0.{build}
   services: mssql2014
   before_build:
   - ps: >-
@@ -59,7 +59,7 @@
       - master
       - /release.*/
   
-  version: 1.0.0.{build}
+  version: 1.1.0.{build}
   services: mssql2014
   before_build:
   - ps: >-
