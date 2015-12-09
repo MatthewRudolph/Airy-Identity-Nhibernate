@@ -1,3 +1,30 @@
+<##########################################################################################
+#Date: 		03 December 2015                                                              #
+#Author: 	Matthew Rudolph                                                               #
+#Script:	Sets the version of AssemblyInfo.cs and *.nuspec files.                       #
+#Version:	1.0																              #
+###########################################################################################
+ <#
+.SYNOPSIS
+	Sets the version of AssemblyInfo.cs and *.nuspec files.
+.DESCRIPTION
+	Sets the version of AssemblyInfo.cs and *.nuspec files.
+		Uses the semantic version system to set versions.
+		Pass the version in the following format major.minor.patch.build.
+		If releaseType is Release (default) then no text is appended to the nuget version.
+		If releaseType is not Release then it's value is suffixed with the build number and appended to the patch version.
+			AssemblyVersion = major.minor.patch.0  (i.e. the last part will always be 0)
+			AssemblyFileVersion = major.minor.patch.build
+			AssemblyInformationalVersion = major.minor.patch.-releaseType+build
+			NugetVersion = major.minor.patch(-releaseType+)build
+.EXAMPLE
+	To create release build nuget packages for all projects with a nuspec file in the solution:
+		PS C:\Projects\Airy> .\tools\SetVersion.ps1
+		PS C:\Projects\Airy> .\tools\SetVersion.ps1 'Release'
+		PS C:\Projects\Airy> .\tools\SetVersion.ps1 'Alpha'
+.NOTES
+	
+#>
 [CmdletBinding()]
 Param(
 	[Parameter(Mandatory=$True)]
@@ -53,10 +80,7 @@ function CalculateVersions()
 }
 
 function SetAssemblyVersion()
-{
-	#$AssemblyFileVersion = "$major.$minor.$env:APPVEYOR_BUILD_NUMBER";
-	#$AssemblyInformationalVersion = "$AssemblyFileVersion-$env:APPVEYOR_REPO_SCM" + ($env:APPVEYOR_REPO_COMMIT).Substring(0, 8);
-
+{	
 	$fileAssemblyVersion = 'AssemblyVersion("' + $AssemblyVersion + '")';
 	$fileFileVersion = 'AssemblyFileVersion("' + $AssemblyFileVersion + '")';
 	$fileInformationalVersion = 'AssemblyInformationalVersion("' + $AssemblyInformationalVersion + '")';
