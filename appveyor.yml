@@ -22,6 +22,7 @@
       nuget restore
   build:
     publish_nuget: true
+    publish_nuget_symbols: true
     verbosity: minimal
   before_test:
   - ps: >-
@@ -72,6 +73,7 @@
       nuget restore
   build:
     publish_nuget: true
+    ublish_nuget_symbols: true
     verbosity: minimal
   before_test:
   - ps: >-
