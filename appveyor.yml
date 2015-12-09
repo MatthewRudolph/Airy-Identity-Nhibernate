@@ -12,6 +12,7 @@
   
   version: 1.1.0.{build}
   services: mssql2014
+  configuration: Release
   before_build:
   - ps: >-
       $versionToUse = $env:APPVEYOR_BUILD_VERSION
@@ -60,6 +61,7 @@
       - /release.*/
   
   version: 1.1.0.{build}
+  configuration: Release
   services: mssql2014
   before_build:
   - ps: >-
