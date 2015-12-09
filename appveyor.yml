@@ -62,7 +62,6 @@
       - /release.*/
   
   version: 1.1.0.{build}
-  configuration: Release
   services: mssql2014
   before_build:
   - ps: >-
@@ -73,7 +72,6 @@
       nuget restore
   build:
     publish_nuget: true
-    publish_nuget_symbols: true
     verbosity: minimal
   before_test:
   - ps: >-
