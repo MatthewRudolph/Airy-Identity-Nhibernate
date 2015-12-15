@@ -6,12 +6,12 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/MatthewRudolph/Airy/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://raw.github.com/MatthewRudolph/Airy/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/MatthewRudolph/Airy</projectUrl>
-    <iconUrl>https://github.com/MatthewRudolph/Airy/Source/Dematt.Airy.Core/AiryNugetIcon.png</iconUrl>
+    <iconUrl>https://raw.github.com/MatthewRudolph/Airy/master/AiryNugetIcon128x128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>First build of nuget packages.  This is a pre-release package.</releaseNotes>
+    <releaseNotes>https://raw.github.com/MatthewRudolph/Airy/master/ReleaseNotes.txt</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Airy Core NHibernate</tags>
   </metadata>

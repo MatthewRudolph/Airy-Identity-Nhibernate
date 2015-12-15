@@ -1,0 +1,20 @@
+Release v1.1.0
+=============================
+
+## Features ##
+	**Dematt.Airy.Identity.Nhibernate**
+		* Drop-in replacement for ASP.Net Identity Entity Framework (v2.2.1) backing store that ships with ASP.Net MVC 5.
+		* By default matches with database design used by the Microsoft.AspNet.Identity.EntityFramework provider.
+		* Supports the use of types other than strings for primary keys such as Guids or integers.
+		* Supports additional properties on the User, Role, Login and Claim classes if required.
+		* Fully implements all of the UserStore and RoleStore interfaces.
+		* Sample ASP.Net MVC 5 project.
+	**Dematt.Airy.Core**
+		* Base classes for Domain/Entity classes.
+		* Override the Equals and GetHashCode methods as required for Nhibernate.
+
+
+Release v1.0.0
+=============================
+
+## No external nuget releases at this version.##
