@@ -79,7 +79,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dematt.Airy.Identity.Nhibernate.nuspec" />
+    <None Include="Dematt.Airy.Identity.Nhibernate.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
