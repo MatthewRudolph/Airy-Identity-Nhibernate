@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Dematt.Airy.Identity.Nhibernate.Contracts;
 using Microsoft.AspNet.Identity;
 using NHibernate.Cfg.MappingSchema;
@@ -27,11 +25,17 @@ namespace Dematt.Airy.Identity.Nhibernate
         where TRole : class, IIdentityRole<TUser, TRoleKey>, IRole<TRoleKey>
     {
         /// <summary>
-        /// Static constructor, called automatically to initialize the class before the first instance is created or any static members are referenced. 
+        /// Default constructor. 
         /// </summary>
         public MappingHelper()
         {
-            DefaltStringLength = SqlClientDriver.MaxSizeForLengthLimitedString + 1;
+            // The default model mapper class:
+            //  ** Ignores abstract classes.
+            //  ** Uses native generator for int Ids, Generators.GuidComb generator for Guid Ids and string length of 128 for string Ids.
+            //  ** Sets a fields size to the properties StringLength attribute if it has one.
+            //  ** Sets non-nullable types to be not nullable in the database.
+            //  ** Creates indexes based on the index attributes of properties.
+            Mapper = new DefaultModelMapper();
         }
 
         /// <summary>
@@ -50,22 +54,13 @@ namespace Dematt.Airy.Identity.Nhibernate
         private const string RoleIdForeignKeyFieldName = "RoleId";
 
         /// <summary>
-        /// Allows the default length for string properties to be changed.
-        /// Default value is to use maximum permitted by the database, e.g. VARCHAR(MAX) for Microsoft SQL Server.
+        /// The model mapper contains the conventions used for mappings.
         /// </summary>
-        public int DefaltStringLength { get; set; }
+        public DefaultModelMapper Mapper { get; private set; }
 
         public HbmMapping GetMappingsToMatchEfIdentity()
         {
-            // TODO:  Test for when the types have not abstract base classes.  We 'll probably need to exclude them form the mappings.
-            //var baseEntityToIgnore = new[] {
-            //    typeof(TUser).BaseType,
-            //    typeof(TLogin).BaseType,
-            //    typeof(TRole).BaseType,
-            //    typeof(TClaim).BaseType
-            //};
-
-            //Could check types here and if not default then add to ignore?  But would be best if we could find out way to ignore classes that have been inherited.
+            //Get the types to map.
             var entitiesToMap = new List<Type>
             {
                 typeof(TUser),
@@ -74,64 +69,9 @@ namespace Dematt.Airy.Identity.Nhibernate
                 typeof(TClaim)
             };
 
-            // Set up the Model Mapper and and provide it with some customisations so it matches the EF style...
-            var mapper = new ConventionModelMapper();
-
-            // Set mapper to ignore abstract classes
-            Func<Type, bool, bool> matchRootEntity = (type, wasDeclared) => type.IsAbstract == false;
-            mapper.IsRootEntity(matchRootEntity);
-
-            // Set mapper to use native generator for int Ids and string length of 128 for string Ids.
-            mapper.BeforeMapClass += (inspector, type, customizer) =>
-            {
-                foreach (var p in type.GetProperties())
-                {
-                    if (inspector.IsPersistentId(p))
-                    {
-                        var idType = p.PropertyType;
-                        if (idType == typeof(int))
-                        {
-                            customizer.Id(x => x.Generator(Generators.Native));
-                        }
-                        else if (idType == typeof(string))
-                        {
-                            customizer.Id(x => x.Length(128));
-                        }
-                        else if (idType == typeof(Guid))
-                        {
-                            customizer.Id(x =>
-                            {
-                                x.Generator(Generators.GuidComb);
-                            });
-                        }
-                    }
-                }
-            };
-            // Set mapper to use the a properties StringLength attribute if it has one, and non-nullable types to be not nullable in the database.
-            mapper.BeforeMapProperty += (inspector, member, customizer) =>
-            {
-                Type memberType = member.LocalMember.GetPropertyOrFieldType();
-                if (memberType == typeof(string))
-                {
-                    var customAttributes = member.LocalMember.GetCustomAttributes(false);
-                    StringLengthAttribute stringlengthAttribute = (StringLengthAttribute)customAttributes.FirstOrDefault(x => x.GetType() == typeof(StringLengthAttribute));
-                    int length = DefaltStringLength;
-                    if (stringlengthAttribute != null && stringlengthAttribute.MaximumLength > 0)
-                    {
-                        length = stringlengthAttribute.MaximumLength;
-                    }
-                    customizer.Length(length);
-                }
-
-                if (!IsNullable(memberType))
-                {
-                    customizer.NotNullable(true);
-                }
-            };
-
             // Map the generic User class to match the EF style.
             // c=>class, m=>map, x=>entity, k=>key, f=>field
-            mapper.Class<TUser>(c =>
+            Mapper.Class<TUser>(c =>
             {
                 c.Table("AspNetUsers");
                 c.Property(
@@ -206,7 +146,7 @@ namespace Dematt.Airy.Identity.Nhibernate
 
             // Map the generic Login class to match the EF style.
             // c=>class, m=>map, x=>entity, k=>key, f=>field
-            mapper.Class<TLogin>(c =>
+            Mapper.Class<TLogin>(c =>
             {
                 c.Table("AspNetUserLogins");
                 c.ComposedId(k =>
@@ -233,7 +173,7 @@ namespace Dematt.Airy.Identity.Nhibernate
 
             // Map the generic Role class to match the EF style.
             // c=>class, m=>map, x=>entity, k=>key, f=>field
-            mapper.Class<TRole>(c =>
+            Mapper.Class<TRole>(c =>
             {
                 c.Table("AspNetRoles");
                 c.Property(
@@ -275,7 +215,7 @@ namespace Dematt.Airy.Identity.Nhibernate
 
             // Map the generic Claim class to match the EF style.
             // c=>class, m=>map, x=>entity, k=>key, f=>field
-            mapper.Class<TClaim>(c =>
+            Mapper.Class<TClaim>(c =>
             {
                 c.Table("AspNetUserClaims");
                 c.ManyToOne(
@@ -303,14 +243,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                     });
             });
 
-            return mapper.CompileMappingFor(entitiesToMap);
-        }
-
-        private static bool IsNullable(Type type)
-        {
-            if (!type.IsValueType) return true; // Type is a reference type so must be nullable.
-            if (Nullable.GetUnderlyingType(type) != null) return true; // Type is a value type of Nullable<T> so must be nullable.
-            return false; // Otherwise the type must be a value type, so isn't nullable.
+            return Mapper.CompileMappingFor(entitiesToMap);
         }
     }
 }
