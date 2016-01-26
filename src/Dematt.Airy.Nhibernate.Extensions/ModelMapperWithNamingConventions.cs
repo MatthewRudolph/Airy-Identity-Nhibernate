@@ -26,6 +26,7 @@ namespace Dematt.Airy.Nhibernate.Extensions
             BeforeMapElement += (inspector, member, customizer) =>
                 customizer.Column(member.LocalMember.Name.TrimEnd(ElementColumnTrimmedPluralPostfix));
             BeforeMapJoinedSubclass += (inspector, type, customizer) =>
+                // ReSharper disable once PossibleNullReferenceException
                 customizer.Key(k => k.Column(type.BaseType.Name + ForeignKeyColumnPostfix));
 
             BeforeMapSet += BeforeMappingCollectionConvention;

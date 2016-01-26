@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dematt.Airy.Core
 {
@@ -75,9 +76,9 @@ namespace Dematt.Airy.Core
         ///     If the object is transient we just return base.GetHashCode.
         ///     If it is not transient we return Id.GetHashCode as this is data that our equals logic is based on.
         /// </summary>
-        /// <returns>An int that will not change during the lifetime of this object.</returns>
-        //// ReSharper disable NonReadonlyFieldInGetHashCode (Thanks R#, but In this case this is the only place we set it and we only set it once.)
-        //// ReSharper disable BaseObjectGetHashCodeCallInGetHashCode (Thanks R#, but if the object is transient as we have no safe way to get a hash code so call the default implementation.)
+        /// <returns>An int that will not change during the lifetime of this object.</returns>        
+        [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode", Justification = "Thanks R#, but In this case this is the only place we set it and we only set it once.")]
+        [SuppressMessage("ReSharper", "BaseObjectGetHashCodeCallInGetHashCode", Justification = "Thanks R#, but if the object is transient as we have no safe way to get a hash code so call the default implementation.")]
         public override int GetHashCode()
         {
             if (_cachedHashCode.HasValue)
@@ -89,8 +90,6 @@ namespace Dematt.Airy.Core
 
             return _cachedHashCode.Value;
         }
-        //// ReSharper restore NonReadonlyFieldInGetHashCode (Thanks R#, please can you continue checking for this now.)
-        //// ReSharper restore BaseObjectGetHashCodeCallInGetHashCode (Thanks R#, please can you continue checking for this now.)
 
         /// <summary>
         /// Maintain equality operator semantics for entities.

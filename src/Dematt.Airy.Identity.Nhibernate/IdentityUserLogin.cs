@@ -91,6 +91,7 @@ namespace Dematt.Airy.Identity.Nhibernate
         }
 
         [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode", Justification = "Thanks R#, but In this case this is the only place we set it and we only set it once.")]
+        [SuppressMessage("ReSharper", "ArrangeRedundantParentheses", Justification = "Makes the code more readable to have them.")]
         public override int GetHashCode()
         {
             if (_cachedHashCode != null)

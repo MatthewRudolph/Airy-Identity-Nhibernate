@@ -1,3 +1,14 @@
+Release v1.2.0
+=============================
+
+## Features ##
+	**Dematt.Airy.Identity.Nhibernate**
+		* Moved the model mapping conventions that were being added in the MappingHelper class into there own DefaultModelMapper class.
+		* New public property that allows the length of string primary keys to be set (DefaultModelMapper.DefaultStringIdLength) default value is 128 to match EF.
+		* Custom Indexes can now be added by using the IndexAttribute from Dematt.Airy.Core to annotate properties.  This allows custom properties to have indexes.
+	**Dematt.Airy.Core**
+		* No changes.
+
 Release v1.1.0
 =============================
 
