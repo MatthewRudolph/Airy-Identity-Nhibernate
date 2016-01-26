@@ -11,12 +11,12 @@
     <iconUrl>https://raw.github.com/MatthewRudolph/Airy/master/AiryNugetIcon128x128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>https://raw.github.com/MatthewRudolph/Airy/master/ReleaseNotes.txt</releaseNotes>
+    <releaseNotes>Release Summary: https://github.com/MatthewRudolph/Airy/blob/master/ReleaseNotes.txt </releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Airy NHibernate ASP.Net Identity</tags>
     <dependencies>
       <!--For our own core dependency we use semantic versioning so any release greater than the current 1.1 but less then 2 should be OK. -->
-      <dependency id="Dematt.Airy.Core" version="[1.1,2)" />
+      <dependency id="Dematt.Airy.Core" version="[1.2,2)" />
       <!-- We have only tested with AspNet.Identity 2.2.1, and pretty sure that we would be incompatible with the 3.0 when it is released,
          but we should be ok for any future 2.x.x releases. -->
       <dependency id="Microsoft.AspNet.Identity.Core" version="[2.2.1,3)" />
