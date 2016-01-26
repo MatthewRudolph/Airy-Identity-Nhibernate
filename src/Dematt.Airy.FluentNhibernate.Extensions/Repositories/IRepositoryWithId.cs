@@ -8,7 +8,7 @@ namespace Dematt.Airy.FluentNhibernate.Extensions.Repositories
     /// </summary>
     /// <typeparam name="T">The type of object that the repository will persistence.</typeparam>
     /// <typeparam name="TId">The type of the identifier that is used as the unique key for the objects being persisted.</typeparam>
-    public interface IRepositoryWithId<T, TId> where T : EntityWithId<TId>
+    public interface IRepositoryWithId<T, in TId> where T : EntityWithId<TId>
     {
         /// <summary>
         /// Gets a collection of business domain entities of type {T} based on a query defined by the <see cref="IQueryable{T}"/> interface.

@@ -143,9 +143,9 @@ namespace Dematt.Airy.Tests
 
         /// <summary>
         /// Two domain objects that are persisted, have the same Id's but are disparate classes should be considered not equal.
-        /// </summary>
-        //// ReSharper disable SuspiciousTypeConversion.Global (Thanks R#, but that's what we are testing for.)
+        /// </summary>        
         [Test]
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "Thanks R#, but that's what we are testing for.")]
         public void EqualsWithSameIdsInDisparateClassesReturnsFalse()
         {
             var obj1 = new SimpleDomainObject();
@@ -156,12 +156,11 @@ namespace Dematt.Airy.Tests
             bool equality = Equals(obj1, obj2);
             Assert.AreEqual(false, equality);
         }
-        //// ReSharper restore SuspiciousTypeConversion.Global (OK R#, you can start checking again now.)
 
         /// <summary>
         /// Two domain objects that are persisted, have different Id's and are disparate classes should be considered not equal.
         /// </summary>
-        //// ReSharper disable SuspiciousTypeConversion.Global (Thanks R#, but that's what we are testing for.)
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "Thanks R#, but that's what we are testing for.")]
         [Test]
         public void EqualsWithDifferentIdsInDisparateClassesReturnsFalse()
         {
@@ -173,6 +172,5 @@ namespace Dematt.Airy.Tests
             bool equality = Equals(obj1, obj2);
             Assert.AreEqual(false, equality);
         }
-        //// ReSharper restore SuspiciousTypeConversion.Global (OK R#, you can start checking again now.)
     }
 }
