@@ -1,9 +1,7 @@
 # Airy.Identity.Nhibernate
 
-Branch  |  status
---------|---------
-master  | [![Build status](https://ci.appveyor.com/api/projects/status/xt2v610omjxosig6/branch/dev?svg=true)](https://ci.appveyor.com/project/MatthewRudolph/airy/branch/master)
-dev     | [![Build status](https://ci.appveyor.com/api/projects/status/xt2v610omjxosig6/branch/dev?svg=true)](https://ci.appveyor.com/project/MatthewRudolph/airy/branch/dev)
+[![Build status](https://ci.appveyor.com/api/projects/status/xt2v610omjxosig6/branch/master?svg=true&passingText=master%20-%20passing&failingText=master%20-%20failing&pendingText=master%20-%20pending)](https://ci.appveyor.com/project/MatthewRudolph/airy/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/xt2v610omjxosig6/branch/dev?svg=true&passingText=dev%20-%20passing&failingText=dev%20-%20failing&pendingText=dev%20-%20pending)](https://ci.appveyor.com/project/MatthewRudolph/airy/branch/dev)
 
 ## About ##
 NHibenrate implementation of the backing stores for ASP.Net Identity that can easily be used to replace the default Entity Framework provider.
