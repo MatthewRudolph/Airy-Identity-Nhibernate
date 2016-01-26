@@ -2,6 +2,8 @@
 // ReSharper disable UnusedTypeParameter
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using Dematt.Airy.Core.Attributes;
 using Dematt.Airy.Identity.Nhibernate;
 using Microsoft.AspNet.Identity;
 using NHibernate;
@@ -16,6 +18,7 @@ namespace Dematt.Airy.Tests.Identity.Entities
         public TestUser()
         {
             Id = Guid.NewGuid().ToString();
+            SetRequiredUniqueValues();
         }
 
         /// <summary>
@@ -26,9 +29,37 @@ namespace Dematt.Airy.Tests.Identity.Entities
             : this()
         {
             UserName = userName;
+            SetRequiredUniqueValues();
+        }
+
+        private void SetRequiredUniqueValues()
+        {
+            TestIndex2 = Guid.NewGuid().ToString("B");
+            TestIndex5 = Guid.NewGuid().ToString("B");
         }
 
         public virtual string Hometown { get; set; }
+
+        [StringLength(38)]
+        [Index("IX1")]
+        public virtual string TestIndex1 { get; set; }
+
+        [StringLength(38)]
+        [Index("IU1", Unique = true)]
+        public virtual string TestIndex2 { get; set; }
+
+        [StringLength(38)]
+        [Index("IX2")]
+        public virtual string TestIndex3 { get; set; }
+
+        [StringLength(38)]
+        [Index("IX2")]
+        [Index("IU2", Unique = true)]
+        public virtual string TestIndex4 { get; set; }
+
+        [StringLength(38)]
+        [Index("IU2", Unique = true)]
+        public virtual string TestIndex5 { get; set; }
     }
 
     public class TestRole : IdentityRole<TestUser, string>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Dematt.Airy.Core.Attributes;
@@ -48,9 +49,9 @@ namespace Dematt.Airy.Identity.Nhibernate
             var customAttributes = member.LocalMember.GetCustomAttributes(false);
 
             //TODO: Loop
-            // For all types check for index attribute and add index if required.
-            IndexAttribute indexAttribute = (IndexAttribute)customAttributes.FirstOrDefault(x => x.GetType() == typeof(IndexAttribute));
-            if (indexAttribute != null)
+            // For all types check for index attributes and add indexes if required.
+            var indexAttributes = customAttributes.OfType<IndexAttribute>();
+            foreach (var indexAttribute in indexAttributes)
             {
                 if (indexAttribute.Unique)
                 {
