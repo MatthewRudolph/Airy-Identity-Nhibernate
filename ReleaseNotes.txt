@@ -1,3 +1,13 @@
+Release v1.3.0
+=============================
+
+## Features ##
+	**Dematt.Airy.Identity.Nhibernate**
+		* Added extension method to IIdentity to parse out the string Id value from the claims into a guid.
+	**Dematt.Airy.Core**
+		* No changes.
+
+
 Release v1.2.0
 =============================
 
@@ -8,6 +18,7 @@ Release v1.2.0
 		* Custom Indexes can now be added by using the IndexAttribute from Dematt.Airy.Core to annotate properties.  This allows custom properties to have indexes.
 	**Dematt.Airy.Core**
 		* No changes.
+
 
 Release v1.1.0
 =============================

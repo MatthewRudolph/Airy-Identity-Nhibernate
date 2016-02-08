@@ -48,7 +48,6 @@ namespace Dematt.Airy.Identity.Nhibernate
             // Get all the custom attributes.
             var customAttributes = member.LocalMember.GetCustomAttributes(false);
 
-            //TODO: Loop
             // For all types check for index attributes and add indexes if required.
             var indexAttributes = customAttributes.OfType<IndexAttribute>();
             foreach (var indexAttribute in indexAttributes)
