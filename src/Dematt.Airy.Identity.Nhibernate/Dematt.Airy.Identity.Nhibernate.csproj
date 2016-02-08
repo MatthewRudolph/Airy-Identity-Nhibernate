@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultModelMapper.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="IdentityResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
