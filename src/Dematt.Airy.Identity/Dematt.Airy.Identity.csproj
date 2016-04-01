@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A55DCCF-B3FF-4D59-B792-67938B524712}</ProjectGuid>
+    <ProjectGuid>{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dematt.Airy.Identity.Nhibernate</RootNamespace>
-    <AssemblyName>Dematt.Airy.Identity.Nhibernate</AssemblyName>
+    <RootNamespace>Dematt.Airy.Identity</RootNamespace>
+    <AssemblyName>Dematt.Airy.Identity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,20 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,39 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultModelMapper.cs" />
-    <Compile Include="Extensions\IdentityExtensions.cs" />
-    <Compile Include="IdentityResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IdentityResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="MappingHelper.cs" />
+    <Compile Include="Contracts\IIdentityRole.cs" />
+    <Compile Include="Contracts\IIdentityUser.cs" />
+    <Compile Include="Contracts\IIdentityUserClaim.cs" />
+    <Compile Include="Contracts\IIdentityUserLogin.cs" />
+    <Compile Include="IdentityRole.cs" />
+    <Compile Include="IdentityUser.cs" />
+    <Compile Include="IdentityUserClaim.cs" />
+    <Compile Include="IdentityUserLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IdentityUserStore.cs" />
-    <Compile Include="RoleStore.cs" />
-    <Compile Include="UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="IdentityResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>IdentityResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Dematt.Airy.Identity.Nhibernate.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dematt.Airy.Core\Dematt.Airy.Core.csproj">
       <Project>{47d83b6a-5e0e-438d-ace0-d701ca84fd0e}</Project>
       <Name>Dematt.Airy.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dematt.Airy.Identity\Dematt.Airy.Identity.csproj">
-      <Project>{adf9d853-e16f-4cec-a05b-deda7453fe87}</Project>
-      <Name>Dematt.Airy.Identity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

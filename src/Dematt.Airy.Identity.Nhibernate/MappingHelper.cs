@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dematt.Airy.Identity.Nhibernate.Contracts;
+using Dematt.Airy.Identity.Contracts;
 using Microsoft.AspNet.Identity;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Driver;

@@ -4,6 +4,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Dematt.Airy.Core.Attributes;
+using Dematt.Airy.Identity;
 using Dematt.Airy.Identity.Nhibernate;
 using Microsoft.AspNet.Identity;
 using NHibernate;

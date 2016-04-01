@@ -3,10 +3,10 @@
 using System;
 using System.Collections.Generic;
 using Dematt.Airy.Core;
-using Dematt.Airy.Identity.Nhibernate.Contracts;
+using Dematt.Airy.Identity.Contracts;
 using Microsoft.AspNet.Identity;
 
-namespace Dematt.Airy.Identity.Nhibernate
+namespace Dematt.Airy.Identity
 {
     /// <summary>
     /// The default Airy NHibernate implementation of the ASP.NET Identity IUser interface, using a string for the unique key.

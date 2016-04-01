@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Dematt.Airy.Identity;
 using Dematt.Airy.Identity.Nhibernate;
 using Microsoft.AspNet.Identity;
 using NHibernate;

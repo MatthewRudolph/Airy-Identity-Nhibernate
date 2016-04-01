@@ -1,7 +1,7 @@
 ﻿using Dematt.Airy.Core;
-using Dematt.Airy.Identity.Nhibernate.Contracts;
+using Dematt.Airy.Identity.Contracts;
 
-namespace Dematt.Airy.Identity.Nhibernate
+namespace Dematt.Airy.Identity
 {
     /// <summary>
     /// The default Airy NHibernate entity that represents one specific user claim, for users that have a string based key.

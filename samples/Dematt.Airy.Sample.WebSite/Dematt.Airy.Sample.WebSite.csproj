@@ -254,6 +254,10 @@
       <Project>{5a55dccf-b3ff-4d59-b792-67938b524712}</Project>
       <Name>Dematt.Airy.Identity.Nhibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Dematt.Airy.Identity\Dematt.Airy.Identity.csproj">
+      <Project>{adf9d853-e16f-4cec-a05b-deda7453fe87}</Project>
+      <Name>Dematt.Airy.Identity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
