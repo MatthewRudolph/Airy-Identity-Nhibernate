@@ -1,3 +1,11 @@
+Release v2.1.1
+=============================
+
+## Bug Fixes##
+	**Dematt.Airy.Identity**	
+		* Remove nuspec dependency for NHibernate.
+
+
 Release v2.1.0
 =============================
 
@@ -6,6 +14,7 @@ Release v2.1.0
 		* Fix nuspec version dependencies.
 	**Dematt.Airy.Identity**	
 		* Fix nuspec version dependencies.
+
 
 Release v2.0.0
 =============================
