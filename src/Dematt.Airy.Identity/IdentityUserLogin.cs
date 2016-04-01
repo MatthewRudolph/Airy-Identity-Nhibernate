@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Dematt.Airy.Identity.Nhibernate.Contracts;
+using Dematt.Airy.Identity.Contracts;
 
-namespace Dematt.Airy.Identity.Nhibernate
+namespace Dematt.Airy.Identity
 {
     /// <summary>
     /// The Airy NHibernate entity for a user's login. (i.e. Facebook, Google), for users that have a string based key.

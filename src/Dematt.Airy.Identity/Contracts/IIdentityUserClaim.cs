@@ -1,4 +1,4 @@
-namespace Dematt.Airy.Identity.Nhibernate.Contracts
+namespace Dematt.Airy.Identity.Contracts
 {
     /// <summary>
     /// Interface that defines the minimal set of data required to persist a users claim information using NHibernate.
