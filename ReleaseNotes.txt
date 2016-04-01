@@ -1,3 +1,12 @@
+Release v2.1.0
+=============================
+
+## Bug Fixes##
+	**Dematt.Airy.Identity.Nhibernate**
+		* Fix nuspec version dependencies.
+	**Dematt.Airy.Identity**	
+		* Fix nuspec version dependencies.
+
 Release v2.0.0
 =============================
 
