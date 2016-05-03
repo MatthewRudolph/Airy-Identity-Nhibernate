@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\TestAddress.cs" />
+    <Compile Include="Entities\TestCars.cs" />
     <Compile Include="Entities\TestUser.cs" />
     <Compile Include="RoleStoreTests.cs" />
     <Compile Include="RoleStoreTestsSqlServer.cs" />

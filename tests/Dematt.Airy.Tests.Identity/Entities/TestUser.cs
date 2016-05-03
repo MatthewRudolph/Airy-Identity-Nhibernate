@@ -2,6 +2,7 @@
 // ReSharper disable UnusedTypeParameter
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Dematt.Airy.Core.Attributes;
 using Dematt.Airy.Identity;
@@ -61,6 +62,10 @@ namespace Dematt.Airy.Tests.Identity.Entities
         [StringLength(38)]
         [Index("IU2", Unique = true)]
         public virtual string TestIndex5 { get; set; }
+
+        public virtual ICollection<TestAddress> Addresses { get; set; }
+
+        public virtual ICollection<TestCar> CarsAvailable { get; set; }
     }
 
     public class TestRole : IdentityRole<TestUser, string>
