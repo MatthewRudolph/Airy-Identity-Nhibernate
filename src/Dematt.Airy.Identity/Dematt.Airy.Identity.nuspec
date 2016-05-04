@@ -16,11 +16,12 @@
     <tags>Airy NHibernate ASP.Net Identity</tags>
     <dependencies>
       
-      <!--For our own Dematt.Airy dependencies we use semantic versioning so any release greater than the current 2.1.1 but less then 3 should be OK. -->
-      <dependency id="Dematt.Airy.Core" version="[2.1.1,3)" />
+      <!-- For our own Dematt.Airy dependencies we use semantic versioning so...
+           any release equal to or greater than the current 2.2.0 but less then 3 should be OK. -->
+      <dependency id="Dematt.Airy.Core" version="[2.2.0,3)" />
       
       <!-- We have only tested with AspNet.Identity 2.2.1, and pretty sure that we would be incompatible with the 3.0 when it is released,
-         but we should be ok for any future 2.x.x releases. -->
+           but we should be ok for any future 2.x.x releases. -->
       <dependency id="Microsoft.AspNet.Identity.Core" version="[2.2.1,3)" />
     
     </dependencies>

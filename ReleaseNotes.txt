@@ -1,3 +1,20 @@
+Release v2.2.0
+=============================
+
+## Features ##
+	**Dematt.Airy.Identity.Nhibernate**
+		* Added name conventions for foreign keys.  
+			- Default is PropertyTypeName + Id  e.g. TestUserId
+		* Added name conventions for many to many link table names. 
+			- Default is now PropertyTypeName1 + To + PropertyTypeName2  e.g. TestCarToTestUser
+		* This mean collections added to a custom user class that inherits from IdentityUser<TUserKey, TLogin, TRole, TRoleKey, TClaim>
+		  should now be mapped in a more conventional way
+		* If you need to keep the old style collection mapping (The NHibernate Mapping by Code ConventionModelMapper version) then
+		  pass false as a parameter to the DefaultModelMapper constructor.  e.g, var mapper = new DefaultModelMapper(false)
+		* If you need to change the foreign key suffix of link table joiner then pass these on the constructor
+		  e.g. var mapper = DefaultModelMapper("_id", "_link_")
+
+
 Release v2.1.1
 =============================
 
