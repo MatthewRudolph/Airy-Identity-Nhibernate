@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using Dematt.Airy.Identity.Nhibernate;
 using Dematt.Airy.Tests.Identity.Entities;
@@ -63,11 +62,14 @@ namespace Dematt.Airy.Tests.Identity
         {
             if (DefaultSessionFactory == null)
             {
-                var domainTypes = new Type[] { typeof(TestAddress), typeof(TestCar) };
+                // Build and add the mappings for the test domain entities.
+                var domainTypes = new[] { typeof(TestAddress), typeof(TestCar) };
                 var domainMapper = new DefaultModelMapper();
                 _configuration.AddMapping(domainMapper.CompileMappingFor(domainTypes));
 
+                // Build and add the mappings for ASP.Net Identity entities.
                 var mappingHelper = new MappingHelper<TestUser, string, TestLogin, TestRole, string, TestClaim, int>();
+                // Customise the ASP.Net Identity User mapping before adding the mappings to the configuration.
                 mappingHelper.Mapper.Class<TestUser>(u =>
                 {
                     u.Bag(x => x.CarsAvailable, c =>

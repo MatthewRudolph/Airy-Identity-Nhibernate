@@ -12,6 +12,9 @@ using NHibernate;
 
 namespace Dematt.Airy.Tests.Identity.Entities
 {
+    /// <summary>
+    /// User class for testing Dematt Airy NHibernate ASP.Net Identity functionality.
+    /// </summary>
     public class TestUser : IdentityUser<string, TestLogin, TestRole, string, TestClaim>
     {
         /// <summary>
@@ -68,6 +71,10 @@ namespace Dematt.Airy.Tests.Identity.Entities
         public virtual ICollection<TestCar> CarsAvailable { get; set; }
     }
 
+
+    /// <summary>
+    /// Role class for testing Dematt Airy NHibernate ASP.Net Identity functionality.
+    /// </summary>
     public class TestRole : IdentityRole<TestUser, string>
     {
         /// <summary>
@@ -89,16 +96,28 @@ namespace Dematt.Airy.Tests.Identity.Entities
         }
     }
 
+
+    /// <summary>
+    /// Login class for testing Dematt Airy NHibernate ASP.Net Identity functionality.
+    /// </summary>
     public class TestLogin : IdentityUserLogin<TestUser>
     {
 
     }
 
+
+    /// <summary>
+    /// Claim class for testing Dematt Airy NHibernate ASP.Net Identity functionality.
+    /// </summary>
     public class TestClaim : IdentityUserClaim<TestUser, int>
     {
 
     }
 
+
+    /// <summary>
+    /// UserStore class for testing Dematt Airy NHibernate ASP.Net Identity functionality.
+    /// </summary>
     public class TestUserStore<TUser> : UserStore<TestUser, string, TestLogin, TestRole, string, TestClaim, int>,
         IUserStore<TestUser>
         where TUser : TestUser
@@ -109,6 +128,10 @@ namespace Dematt.Airy.Tests.Identity.Entities
         }
     }
 
+
+    /// <summary>
+    /// RoleStore class for testing Dematt Airy NHibernate ASP.Net Identity functionality.
+    /// </summary>
     public class TestRoleStore<TRole> : RoleStore<TestRole, string, TestUser>
         where TRole : TestRole, new()
     {

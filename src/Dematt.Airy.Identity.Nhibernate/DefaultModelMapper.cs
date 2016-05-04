@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Dematt.Airy.Core.Attributes;
 using NHibernate.Driver;
@@ -10,7 +11,14 @@ namespace Dematt.Airy.Identity.Nhibernate
 {
     public class DefaultModelMapper : ConventionModelMapper
     {
+        /// <summary>
+        /// The suffix (added to the name of the property) used for the name for foreign key fields.
+        /// </summary>
         private readonly string _foreignKeyColumnSuffix = "Id";
+
+        /// <summary>
+        /// The string inserted between the names of the two tables being linked in a many to many relationship to create the link table name.
+        /// </summary>
         private readonly string _manyToManyLinkTableInsert = "To";
 
         /// <summary>
@@ -48,6 +56,9 @@ namespace Dematt.Airy.Identity.Nhibernate
             AddNamingConventionsToMapper();
         }
 
+        /// <summary>
+        /// Sets the mapper conventions that are always applied to this mapper.
+        /// </summary>
         private void DeafultMapperSetup()
         {
             DefaltStringLength = SqlClientDriver.MaxSizeForLengthLimitedString + 1;
@@ -63,6 +74,10 @@ namespace Dematt.Airy.Identity.Nhibernate
             BeforeMapProperty += OnMapperOnBeforeMapProperty;
         }
 
+        /// <summary>
+        /// Sets the naming conventions that are optional applied to this mapper.
+        /// </summary>
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public void AddNamingConventionsToMapper()
         {
             // Add the foreign key column suffix to the foreign key fields.
@@ -183,6 +198,11 @@ namespace Dematt.Airy.Identity.Nhibernate
             }
         }
 
+        /// <summary>
+        /// Sets the following conventions:
+        /// 1) Foreign key fields are named as the property name suffixed by the value of _foreignKeyColumnSuffix.
+        /// 2) Many to Many link tables are named as the object type names sorted alphabetically with the _manyToManyLinkTableInsert inserted inbetween them.
+        /// </summary>
         private void BeforeMappingCollectionConvention(IModelInspector inspector, PropertyPath member, ICollectionPropertiesMapper customizer)
         {
             if (inspector.IsManyToMany(member.LocalMember))
@@ -193,17 +213,26 @@ namespace Dematt.Airy.Identity.Nhibernate
             customizer.Key(k => k.Column(GetKeyColumnName(inspector, member)));
         }
 
+        /// <summary>
+        /// Gets the Many to Many link tables name.
+        /// </summary>
         private string GetManyToManyLinkTableName(PropertyPath member)
         {
             return String.Join(_manyToManyLinkTableInsert, GetManyToManySidesNames(member).OrderBy(x => x));
         }
 
+        /// <summary>
+        /// Gets the object type names for a many to many relationship sorted alphabetically.
+        /// </summary>
         private static IEnumerable<string> GetManyToManySidesNames(PropertyPath member)
         {
             yield return member.GetRootMemberType().Name;
             yield return member.GetCollectionElementType().Name;
         }
 
+        /// <summary>
+        /// Gets the foreign key field name to use for a property.
+        /// </summary>
         private string GetKeyColumnName(IModelInspector inspector, PropertyPath member)
         {
             var otherSideProperty = member.OneToManyOtherSideProperty();
