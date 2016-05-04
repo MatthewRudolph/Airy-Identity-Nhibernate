@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Dematt.Airy.Core.Attributes;
 using NHibernate.Driver;
@@ -9,7 +11,55 @@ namespace Dematt.Airy.Identity.Nhibernate
 {
     public class DefaultModelMapper : ConventionModelMapper
     {
+        /// <summary>
+        /// The suffix (added to the name of the property) used for the name for foreign key fields.
+        /// </summary>
+        private readonly string _foreignKeyColumnSuffix = "Id";
+
+        /// <summary>
+        /// The string inserted between the names of the two tables being linked in a many to many relationship to create the link table name.
+        /// </summary>
+        private readonly string _manyToManyLinkTableInsert = "To";
+
+        /// <summary>
+        /// Creates a new model mapper with the convention naming style using the default values.
+        /// </summary>
         public DefaultModelMapper()
+        {
+            DeafultMapperSetup();
+            AddNamingConventionsToMapper();
+        }
+
+        /// <summary>
+        /// Creates a new model mapper with or without the convention naming style using the default values.
+        /// </summary>
+        /// <param name="useConventionMapping">true to use the convention naming style mapping, false to use the mapping by code base style mapping.</param>
+        public DefaultModelMapper(bool useConventionMapping)
+        {
+            DeafultMapperSetup();
+            if (useConventionMapping)
+            {
+                AddNamingConventionsToMapper();
+            }
+        }
+
+        /// <summary>
+        /// Creates a new model mapper with the convention naming style using the supplied values.
+        /// </summary>
+        /// <param name="foreignKeyColumnSuffix">The suffix to use for foreign key columns.</param>
+        /// <param name="manyToManyLinkTableInsert">The insert to use between the referenced table names for a link table name.</param>
+        public DefaultModelMapper(string foreignKeyColumnSuffix, string manyToManyLinkTableInsert)
+        {
+            _foreignKeyColumnSuffix = foreignKeyColumnSuffix;
+            _manyToManyLinkTableInsert = manyToManyLinkTableInsert;
+            DeafultMapperSetup();
+            AddNamingConventionsToMapper();
+        }
+
+        /// <summary>
+        /// Sets the mapper conventions that are always applied to this mapper.
+        /// </summary>
+        private void DeafultMapperSetup()
         {
             DefaltStringLength = SqlClientDriver.MaxSizeForLengthLimitedString + 1;
             DefaltStringIdLength = 128;
@@ -22,6 +72,37 @@ namespace Dematt.Airy.Identity.Nhibernate
 
             // Set mapper to set a fields size to the properties StringLength attribute if it has one, and non-nullable types to be not nullable in the database.
             BeforeMapProperty += OnMapperOnBeforeMapProperty;
+        }
+
+        /// <summary>
+        /// Sets the naming conventions that are optional applied to this mapper.
+        /// </summary>
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
+        public void AddNamingConventionsToMapper()
+        {
+            // Add the foreign key column suffix to the foreign key fields.
+            BeforeMapManyToOne += (inspector, member, customizer) =>
+            {
+                customizer.Column(member.LocalMember.Name + _foreignKeyColumnSuffix);
+
+            };
+            BeforeMapManyToMany += (inspector, member, customizer) =>
+            {
+                customizer.Column(member.GetCollectionElementType().Name + _foreignKeyColumnSuffix);
+
+            };
+            BeforeMapJoinedSubclass += (inspector, type, customizer) =>
+            {
+                customizer.Key(k => k.Column(type.BaseType.Name + _foreignKeyColumnSuffix));
+
+            };
+
+            // Add Collection mapping conventions.
+            BeforeMapSet += BeforeMappingCollectionConvention;
+            BeforeMapBag += BeforeMappingCollectionConvention;
+            BeforeMapList += BeforeMappingCollectionConvention;
+            BeforeMapIdBag += BeforeMappingCollectionConvention;
+            BeforeMapMap += BeforeMappingCollectionConvention;
         }
 
         /// <summary>
@@ -115,6 +196,53 @@ namespace Dematt.Airy.Identity.Nhibernate
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the following conventions:
+        /// 1) Foreign key fields are named as the property name suffixed by the value of _foreignKeyColumnSuffix.
+        /// 2) Many to Many link tables are named as the object type names sorted alphabetically with the _manyToManyLinkTableInsert inserted inbetween them.
+        /// </summary>
+        private void BeforeMappingCollectionConvention(IModelInspector inspector, PropertyPath member, ICollectionPropertiesMapper customizer)
+        {
+            if (inspector.IsManyToMany(member.LocalMember))
+            {
+                customizer.Table(GetManyToManyLinkTableName(member));
+            }
+
+            customizer.Key(k => k.Column(GetKeyColumnName(inspector, member)));
+        }
+
+        /// <summary>
+        /// Gets the Many to Many link tables name.
+        /// </summary>
+        private string GetManyToManyLinkTableName(PropertyPath member)
+        {
+            return String.Join(_manyToManyLinkTableInsert, GetManyToManySidesNames(member).OrderBy(x => x));
+        }
+
+        /// <summary>
+        /// Gets the object type names for a many to many relationship sorted alphabetically.
+        /// </summary>
+        private static IEnumerable<string> GetManyToManySidesNames(PropertyPath member)
+        {
+            yield return member.GetRootMemberType().Name;
+            yield return member.GetCollectionElementType().Name;
+        }
+
+        /// <summary>
+        /// Gets the foreign key field name to use for a property.
+        /// </summary>
+        private string GetKeyColumnName(IModelInspector inspector, PropertyPath member)
+        {
+            var otherSideProperty = member.OneToManyOtherSideProperty();
+            if (inspector.IsOneToMany(member.LocalMember) && otherSideProperty != null)
+            {
+                return otherSideProperty.Name + _foreignKeyColumnSuffix;
+
+            }
+
+            return member.GetRootMemberType().Name + _foreignKeyColumnSuffix;
         }
 
         /// <summary>

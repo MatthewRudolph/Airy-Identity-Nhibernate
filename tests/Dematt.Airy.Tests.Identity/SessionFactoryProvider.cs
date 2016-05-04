@@ -62,7 +62,21 @@ namespace Dematt.Airy.Tests.Identity
         {
             if (DefaultSessionFactory == null)
             {
+                // Build and add the mappings for the test domain entities.
+                var domainTypes = new[] { typeof(TestAddress), typeof(TestCar) };
+                var domainMapper = new DefaultModelMapper();
+                _configuration.AddMapping(domainMapper.CompileMappingFor(domainTypes));
+
+                // Build and add the mappings for ASP.Net Identity entities.
                 var mappingHelper = new MappingHelper<TestUser, string, TestLogin, TestRole, string, TestClaim, int>();
+                // Customise the ASP.Net Identity User mapping before adding the mappings to the configuration.
+                mappingHelper.Mapper.Class<TestUser>(u =>
+                {
+                    u.Bag(x => x.CarsAvailable, c =>
+                    {
+                        c.Inverse(true);
+                    }, r => r.ManyToMany());
+                });
                 _configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
                 DefaultSessionFactory = _configuration.BuildSessionFactory();
             }
