@@ -57,6 +57,18 @@ namespace Dematt.Airy.Identity.Nhibernate
         }
 
         /// <summary>
+        /// Allows the default length for string properties to be changed.
+        /// Default value is to use maximum permitted by the database, e.g. VARCHAR(MAX) for Microsoft SQL Server.
+        /// </summary>
+        public int DefaltStringLength { get; set; }
+
+        /// <summary>
+        /// Allows the default length for string properties to be changed.
+        /// Default value is to use maximum permitted by the database, e.g. VARCHAR(MAX) for Microsoft SQL Server.
+        /// </summary>
+        public int DefaltStringIdLength { get; set; }
+
+        /// <summary>
         /// Sets the mapper conventions that are always applied to this mapper.
         /// </summary>
         private void DeafultMapperSetup()
@@ -78,7 +90,7 @@ namespace Dematt.Airy.Identity.Nhibernate
         /// Sets the naming conventions that are optional applied to this mapper.
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public void AddNamingConventionsToMapper()
+        private void AddNamingConventionsToMapper()
         {
             // Add the foreign key column suffix to the foreign key fields.
             BeforeMapManyToOne += (inspector, member, customizer) =>
@@ -104,18 +116,6 @@ namespace Dematt.Airy.Identity.Nhibernate
             BeforeMapIdBag += BeforeMappingCollectionConvention;
             BeforeMapMap += BeforeMappingCollectionConvention;
         }
-
-        /// <summary>
-        /// Allows the default length for string properties to be changed.
-        /// Default value is to use maximum permitted by the database, e.g. VARCHAR(MAX) for Microsoft SQL Server.
-        /// </summary>
-        public int DefaltStringLength { get; set; }
-
-        /// <summary>
-        /// Allows the default length for string properties to be changed.
-        /// Default value is to use maximum permitted by the database, e.g. VARCHAR(MAX) for Microsoft SQL Server.
-        /// </summary>
-        public int DefaltStringIdLength { get; set; }
 
         /// <summary>
         /// Sets the mapper to use:
