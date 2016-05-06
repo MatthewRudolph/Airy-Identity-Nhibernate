@@ -151,13 +151,16 @@ namespace Dematt.Airy.Identity.Nhibernate
             var indexAttributes = customAttributes.OfType<IndexAttribute>();
             foreach (var indexAttribute in indexAttributes)
             {
+                string indexPrefix = member.LocalMember.DeclaringType == null ? "" : member.LocalMember.DeclaringType.Name;
                 if (indexAttribute.Unique)
                 {
-                    customizer.UniqueKey(indexAttribute.Name);
+                    string indexName = string.Format("UI_{0}_{1}", indexPrefix, indexAttribute.Name);
+                    customizer.UniqueKey(indexName);
                 }
                 else
                 {
-                    customizer.Index(indexAttribute.Name);
+                    string indexName = string.Format("IX_{0}_{1}", indexPrefix, indexAttribute.Name);
+                    customizer.Index(indexName);
                 }
             }
 
