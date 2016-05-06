@@ -1,9 +1,20 @@
+Release v2.2.1
+=============================
+
+## Features ##
+	**Dematt.Airy.Identity.Nhibernate**	
+		* Added name conventions for foreign key names.
+			- Default is FK_{PropertyDeclaringTypeName}_{PropertyColumnName}  e.g. FK_TestAddress_TestUserId
+		* Updated Index to also use the Property Declaring Type Name to make sure they are unique in the database.
+			- Default is IX_{PropertyDeclaringTypeName}_{IndexAttributeName}  e.g. IX_TestUser_IX1
+
+
 Release v2.2.0
 =============================
 
 ## Features ##
 	**Dematt.Airy.Identity.Nhibernate**
-		* Added name conventions for foreign keys.  
+		* Added name conventions for foreign keys field names.  
 			- Default is PropertyTypeName + Id  e.g. TestUserId
 		* Added name conventions for many to many link table names. 
 			- Default is now PropertyTypeName1 + To + PropertyTypeName2  e.g. TestCarToTestUser

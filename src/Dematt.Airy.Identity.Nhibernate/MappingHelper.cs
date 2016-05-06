@@ -44,6 +44,16 @@ namespace Dematt.Airy.Identity.Nhibernate
         private const string UsersRolesLinkTableName = "AspNetUserRoles";
 
         /// <summary>
+        /// The name to use for the user foreign key on the User to Roles link table.
+        /// </summary>
+        private const string UsersRolesUserFkName = "FK_AspNetUserRoles_AspNetUsers_UserId";
+
+        /// <summary>
+        /// The name to use for the roles foreign key on the User to Roles link table.
+        /// </summary>
+        private const string UsersRolesRolesFkName = "FK_AspNetUserRoles_AspNetRoles_RoleId";
+
+        /// <summary>
         /// The name to use for the for the User Id foreign keys.
         /// </summary>
         private const string UserIdForeignKeyFieldName = "UserId";
@@ -114,6 +124,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                                 f.NotNullable(true);
                                 f.Index("IX_UserRoles_UserId");
                             });
+                            k.ForeignKey(UsersRolesUserFkName);
                         });
                         m.Inverse(false);
                     },
@@ -122,7 +133,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                         r.ManyToMany(p =>
                         {
                             p.Column(RoleIdForeignKeyFieldName);
-                            p.ForeignKey("FK_AspNetUserRoles_AspNetRoles_RoleId");
+                            p.ForeignKey(UsersRolesRolesFkName);
                         });
                     });
                 c.Bag(
@@ -200,6 +211,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                                 f.NotNullable(true);
                                 f.Index("IX_UserRoles_RoleId");
                             });
+                            k.ForeignKey(UsersRolesRolesFkName);
                         });
                         m.Inverse(true);
                     },
@@ -208,7 +220,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                         r.ManyToMany(p =>
                         {
                             p.Column(UserIdForeignKeyFieldName);
-                            p.ForeignKey("FK_AspNetUserRoles_AspNetUsers_UserId");
+                            p.ForeignKey(UsersRolesUserFkName);
                         });
                     });
             });
