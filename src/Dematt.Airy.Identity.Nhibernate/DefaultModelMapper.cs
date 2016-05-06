@@ -53,10 +53,12 @@ namespace Dematt.Airy.Identity.Nhibernate
         /// </summary>
         /// <param name="foreignKeyColumnSuffix">The suffix to use for foreign key columns.</param>
         /// <param name="manyToManyLinkTableInsert">The insert to use between the referenced table names for a link table name.</param>
-        public DefaultModelMapper(string foreignKeyColumnSuffix, string manyToManyLinkTableInsert)
+        /// <param name="foreignKeyNamePrefix">The prefix to use before the foreign key name.</param>
+        public DefaultModelMapper(string foreignKeyColumnSuffix, string manyToManyLinkTableInsert, string foreignKeyNamePrefix)
         {
             _foreignKeyColumnSuffix = foreignKeyColumnSuffix;
             _manyToManyLinkTableInsert = manyToManyLinkTableInsert;
+            _foreignKeyNamePrefix = foreignKeyNamePrefix;
             DeafultMapperSetup();
             AddNamingConventionsToMapper();
         }
