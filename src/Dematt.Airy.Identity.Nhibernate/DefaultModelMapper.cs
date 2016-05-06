@@ -17,6 +17,11 @@ namespace Dematt.Airy.Identity.Nhibernate
         private readonly string _foreignKeyColumnSuffix = "Id";
 
         /// <summary>
+        /// The prefix (added before the name of the property) used for the name for foreign key.
+        /// </summary>
+        private readonly string _foreignKeyNamePrefix = "FK_";
+
+        /// <summary>
         /// The string inserted between the names of the two tables being linked in a many to many relationship to create the link table name.
         /// </summary>
         private readonly string _manyToManyLinkTableInsert = "To";
@@ -95,18 +100,32 @@ namespace Dematt.Airy.Identity.Nhibernate
             // Add the foreign key column suffix to the foreign key fields.
             BeforeMapManyToOne += (inspector, member, customizer) =>
             {
-                customizer.Column(member.LocalMember.Name + _foreignKeyColumnSuffix);
+                string columnName = member.LocalMember.Name + _foreignKeyColumnSuffix;
+                customizer.Column(columnName);
+                string tableName = member.LocalMember.DeclaringType.Name;
+                string foreignKeyName = string.Format("{0}{1}_{2}", _foreignKeyNamePrefix, tableName, columnName);
+                customizer.ForeignKey(foreignKeyName);
 
             };
             BeforeMapManyToMany += (inspector, member, customizer) =>
             {
-                customizer.Column(member.GetCollectionElementType().Name + _foreignKeyColumnSuffix);
+                string columnName = member.GetCollectionElementType().Name + _foreignKeyColumnSuffix;
+                customizer.Column(columnName);
+                string tableName = GetManyToManyLinkTableName(member);
+                string foreignKeyName = string.Format("{0}{1}_{2}", _foreignKeyNamePrefix, tableName, columnName);
+                customizer.ForeignKey(foreignKeyName);
 
             };
             BeforeMapJoinedSubclass += (inspector, type, customizer) =>
             {
-                customizer.Key(k => k.Column(type.BaseType.Name + _foreignKeyColumnSuffix));
-
+                customizer.Key(k =>
+                {
+                    string columnName = type.BaseType.Name + _foreignKeyColumnSuffix;
+                    k.Column(columnName);
+                    string tableName = type.DeclaringType.Name;
+                    string foreignKeyName = string.Format("{0}{1}_{2}", _foreignKeyNamePrefix, tableName, columnName);
+                    k.ForeignKey(foreignKeyName);
+                });
             };
 
             // Add Collection mapping conventions.
@@ -205,12 +224,24 @@ namespace Dematt.Airy.Identity.Nhibernate
         /// </summary>
         private void BeforeMappingCollectionConvention(IModelInspector inspector, PropertyPath member, ICollectionPropertiesMapper customizer)
         {
+            string tableName;
             if (inspector.IsManyToMany(member.LocalMember))
             {
-                customizer.Table(GetManyToManyLinkTableName(member));
+                tableName = GetManyToManyLinkTableName(member);
+                customizer.Table(tableName);
+            }
+            else
+            {
+                tableName = member.GetCollectionElementType().Name;
             }
 
-            customizer.Key(k => k.Column(GetKeyColumnName(inspector, member)));
+            string columnName = GetKeyColumnName(inspector, member);
+            string foreignKeyName = string.Format("{0}{1}_{2}", _foreignKeyNamePrefix, tableName, columnName);
+            customizer.Key(k =>
+            {
+                k.Column(columnName);
+                k.ForeignKey(foreignKeyName);
+            });
         }
 
         /// <summary>

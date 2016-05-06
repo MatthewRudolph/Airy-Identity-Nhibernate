@@ -114,6 +114,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                                 f.NotNullable(true);
                                 f.Index("IX_UserRoles_UserId");
                             });
+                            k.ForeignKey("FK_AspNetUserRoles_AspNetUsers_UserId");
                         });
                         m.Inverse(false);
                     },
@@ -200,6 +201,7 @@ namespace Dematt.Airy.Identity.Nhibernate
                                 f.NotNullable(true);
                                 f.Index("IX_UserRoles_RoleId");
                             });
+                            k.ForeignKey("FK_AspNetUserRoles_AspNetRoles_RoleId");
                         });
                         m.Inverse(true);
                     },
