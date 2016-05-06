@@ -53,10 +53,12 @@ namespace Dematt.Airy.Identity.Nhibernate
         /// </summary>
         /// <param name="foreignKeyColumnSuffix">The suffix to use for foreign key columns.</param>
         /// <param name="manyToManyLinkTableInsert">The insert to use between the referenced table names for a link table name.</param>
-        public DefaultModelMapper(string foreignKeyColumnSuffix, string manyToManyLinkTableInsert)
+        /// <param name="foreignKeyNamePrefix">The prefix to use before the foreign key name.</param>
+        public DefaultModelMapper(string foreignKeyColumnSuffix, string manyToManyLinkTableInsert, string foreignKeyNamePrefix)
         {
             _foreignKeyColumnSuffix = foreignKeyColumnSuffix;
             _manyToManyLinkTableInsert = manyToManyLinkTableInsert;
+            _foreignKeyNamePrefix = foreignKeyNamePrefix;
             DeafultMapperSetup();
             AddNamingConventionsToMapper();
         }
@@ -151,7 +153,7 @@ namespace Dematt.Airy.Identity.Nhibernate
             var indexAttributes = customAttributes.OfType<IndexAttribute>();
             foreach (var indexAttribute in indexAttributes)
             {
-                string indexPrefix = member.LocalMember.DeclaringType == null ? "" : member.LocalMember.DeclaringType.Name;
+                string indexPrefix = member.GetContainerEntity(inspector).Name;
                 if (indexAttribute.Unique)
                 {
                     string indexName = string.Format("UI_{0}_{1}", indexPrefix, indexAttribute.Name);
