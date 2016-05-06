@@ -153,7 +153,7 @@ namespace Dematt.Airy.Identity.Nhibernate
             var indexAttributes = customAttributes.OfType<IndexAttribute>();
             foreach (var indexAttribute in indexAttributes)
             {
-                string indexPrefix = member.LocalMember.DeclaringType == null ? "" : member.LocalMember.DeclaringType.Name;
+                string indexPrefix = member.GetContainerEntity(inspector).Name;
                 if (indexAttribute.Unique)
                 {
                     string indexName = string.Format("UI_{0}_{1}", indexPrefix, indexAttribute.Name);
