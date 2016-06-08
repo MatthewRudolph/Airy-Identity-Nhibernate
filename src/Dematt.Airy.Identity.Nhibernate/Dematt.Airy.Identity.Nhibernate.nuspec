@@ -13,7 +13,7 @@
     <description>$description$</description>
     <releaseNotes>Release Summary: https://github.com/MatthewRudolph/Airy/blob/master/ReleaseNotes.txt </releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>Airy NHibernate ASP.Net Identity</tags>
+    <tags>NHibernate Identity ASP.Net Airy</tags>
     <dependencies>
 
       <!-- For our own Dematt.Airy dependencies we use semantic versioning so...

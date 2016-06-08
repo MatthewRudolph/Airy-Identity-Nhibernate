@@ -15,6 +15,9 @@ namespace Dematt.Airy.Tests.Identity
     {
         private readonly Configuration _configuration;
 
+        /// <summary>
+        /// Default constructer, builds a session factory looking in the app.config, web.config or hibernate.cfg.xml for config details.
+        /// </summary>
         public SessionFactoryProvider()
         {
             _configuration = new Configuration();
@@ -22,6 +25,9 @@ namespace Dematt.Airy.Tests.Identity
             CreateNHibernateSessionFactory();
         }
 
+        /// <summary>
+        /// Builds a session factory using the supplied configuration file.
+        /// </summary>      
         public SessionFactoryProvider(string nHhibernateConfigFile)
         {
             _configuration = new Configuration();
