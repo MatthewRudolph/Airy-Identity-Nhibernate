@@ -75,7 +75,7 @@ namespace Dematt.Airy.Tests.Identity
 
                 // Build and add the mappings for ASP.Net Identity entities.
                 var mappingHelper = new MappingHelper<TestUser, string, TestLogin, TestRole, string, TestClaim, int>();
-                // Customise the ASP.Net Identity User mapping before adding the mappings to the configuration.
+                // YOU CAN customise the ASP.Net Identity User mapping if required, before adding the mappings to the configuration.
                 mappingHelper.Mapper.Class<TestUser>(u =>
                 {
                     u.Bag(x => x.CarsAvailable, c =>
