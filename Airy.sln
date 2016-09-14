@@ -40,8 +40,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0A20546D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Identity", "src\Dematt.Airy.Identity\Dematt.Airy.Identity.csproj", "{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Nhibernate.Extensions", "src\Dematt.Airy.Nhibernate.Extensions\Dematt.Airy.Nhibernate.Extensions.csproj", "{279E2667-AB36-491B-A7E5-0002925238AB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,10 +70,6 @@ Global
 		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{279E2667-AB36-491B-A7E5-0002925238AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{279E2667-AB36-491B-A7E5-0002925238AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{279E2667-AB36-491B-A7E5-0002925238AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{279E2667-AB36-491B-A7E5-0002925238AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +81,5 @@ Global
 		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B} = {8880CD3F-8B56-4335-B407-8DAFD6FF7374}
 		{0287871F-2A43-40D5-9B1B-C93AD834F947} = {230D8DDD-B4F0-4D11-BDF2-FD709CACAC30}
 		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87} = {BFA5C328-999B-411D-9B86-BACA63373042}
-		{279E2667-AB36-491B-A7E5-0002925238AB} = {BFA5C328-999B-411D-9B86-BACA63373042}
 	EndGlobalSection
 EndGlobal
