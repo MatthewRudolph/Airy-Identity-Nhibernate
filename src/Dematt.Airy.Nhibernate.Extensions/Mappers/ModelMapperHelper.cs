@@ -2,7 +2,7 @@
 using Dematt.Airy.Nhibernate.Extensions.UserTypes;
 using NHibernate.Mapping.ByCode;
 
-namespace Dematt.Airy.Nhibernate.Extensions
+namespace Dematt.Airy.Nhibernate.Extensions.Mappers
 {
     /// <summary>
     /// Provides helper methods for setting NHibernate ModelMappers.

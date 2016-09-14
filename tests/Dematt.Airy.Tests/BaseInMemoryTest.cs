@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Dematt.Airy.Nhibernate.Extensions;
+using Dematt.Airy.Nhibernate.Extensions.Mappers;
 using Dematt.Airy.Tests.Domain;
 using NHibernate;
 using NHibernate.Cfg;

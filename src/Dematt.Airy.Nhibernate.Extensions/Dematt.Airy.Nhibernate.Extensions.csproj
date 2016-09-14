@@ -48,11 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="ModelMapperHelper.cs" />
-    <Compile Include="ModelMapperWithNamingConventions.cs" />
+    <Compile Include="Linq\IsNotNullGenerator.cs" />
+    <Compile Include="Linq\LinqToHqlRegisterIsNotNull.cs" />
+    <Compile Include="Mappers\ModelMapperHelper.cs" />
+    <Compile Include="Mappers\ModelMapperWithNamingConventions.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitOfWork.cs" />
     <Compile Include="UserTypes\DateTimeOffsetSplitType.cs" />
   </ItemGroup>
   <ItemGroup>

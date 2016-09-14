@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using NHibernate.Mapping.ByCode;
 
-namespace Dematt.Airy.Nhibernate.Extensions
+namespace Dematt.Airy.Nhibernate.Extensions.Mappers
 {
     // NHibernate mapping-by-code naming convention resembling Fluent's
     // See the blog post: http://notherdev.blogspot.com/2012/01/mapping-by-code-naming-convention.html
