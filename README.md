@@ -126,17 +126,17 @@ They are based on the default VS2013 ASP.Net MVC 5 project with Individual User 
   }
   ```
 *Note:*  
-  The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.
+  The library allows you to use your own primary key types for users, roles and claims, this means that you need to create those classes.
   The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.  
   
-  The above classes use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
+  The above classes use the default primary key type of string for the User and Role entities and int for the Claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
   This matches the default configuration and schema of the Entity Framework version, and should be compatible with existing databases created using the Entity Framework version.
 
 * In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
   ```C#
-  var manager = new UserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+  var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
   ```
-* and replace with this line:
+  and replace with this line:
   ```C#
   var manager = new ApplicationUserManager(new ApplicationUserStore<ApplicationUser>(context.Get<ISession>()));
   ```
