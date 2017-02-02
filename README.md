@@ -18,18 +18,18 @@ NHibenrate implementation of the provider for ASP.Net Identity that can easily b
 These instructions assume you know how to set up NHibernate within an MVC application.  
 They are based on the default VS2013 ASP.Net MVC 5 project with Individual User Accounts authentication type.
 
-  1. Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework.  
+  * Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework.  
   ```Powershell
   Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
   Uninstall-Package EntityFramework
   ```
 
-  2. Install the Airy Identity Nhibernate package.
+  * Install the Airy Identity Nhibernate package.
   ```Powershell
   Install-Package Dematt.Airy.Identity.Nhibernate
   ```
 
-  3. Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
+  * Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
   These classes match the default classes and schema of the Microsoft.AspNet.Identity.EntityFramework implementation.
   ```C#
   using System;
@@ -125,13 +125,14 @@ They are based on the default VS2013 ASP.Net MVC 5 project with Individual User 
       }
   }
   ```
+  *Note:*  
   The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.
   The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.  
   
   The above classes use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
   This matches the default configuration and schema of the Entity Framework version, and should be compatible with existing databases created using the Entity Framework version.
 
-  4. In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
+  * In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
   ```C#
   var manager = new UserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
   ```
@@ -140,8 +141,8 @@ They are based on the default VS2013 ASP.Net MVC 5 project with Individual User 
   var manager = new ApplicationUserManager(new ApplicationUserStore<ApplicationUser>(context.Get<ISession>()));
   ```
 
-  5. Configure Nhibernate mappings.  
-    - NHibernate
+  * Configure Nhibernate mappings.  
+    - NHibernate    
   ```C#
   private ISessionFactory GetSessionFactory()
   {
@@ -151,8 +152,8 @@ They are based on the default VS2013 ASP.Net MVC 5 project with Individual User 
       configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
       return configuration.BuildSessionFactory();
   }
-  ```
-  - FluentNHibernate
+  ```  
+    - FluentNHibernate
   ```C#
   private ISessionFactory GetSessionFactory()
   {
@@ -165,6 +166,7 @@ They are based on the default VS2013 ASP.Net MVC 5 project with Individual User 
       return configuration.BuildSessionFactory();
   }
   ```
+
   Then in the ~App_Start/Startup.Auth.cs file remove the following line:  
   ```C#
   app.CreatePerOwinContext(ApplicationDbContext.Create);
