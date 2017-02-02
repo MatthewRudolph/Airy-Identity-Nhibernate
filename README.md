@@ -8,27 +8,27 @@ NHibenrate implementation of the provider for ASP.Net Identity that can easily b
 
 ## Features ##
 * Drop-in replacement for ASP.Net Identity Entity Framework (v2.2.1) backing store that ships with ASP.Net MVC 5.
-* By default matches with database design used by the Microsoft.AspNet.Identity.EntityFramework provider.
+* By default matches the database design used by the Microsoft.AspNet.Identity.EntityFramework provider.
 * Supports the use of types other than strings for primary keys such as Guids or integers.
 * Supports additional properties on the User, Role, Login and Claim classes if required.
 * Fully implements all of the UserStore and RoleStore interfaces.
-* Sample ASP.Net MVC 5 project.
+* Sample ASP.Net MVC 5 projects.
 
 ## Getting Started ##
 These instructions assume you know how to set up NHibernate within an MVC application.  
 They are based on the default VS2013 ASP.Net MVC 5 project with Individual User Accounts authentication type.
 
-1. Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework
-  ```Powershell
-  Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
-  Uninstall-Package EntityFramework
-  ```
-2. Install the Airy Identity Nhibernate package.
+1.  Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework.  
+```Powershell
+Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
+Uninstall-Package EntityFramework
+```
+2.  Install the Airy Identity Nhibernate package.
 ```Powershell
 Install-Package Dematt.Airy.Identity.Nhibernate
 ```
 
-3. Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
+3.  Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
 These classes match the default classes and schema of the Microsoft.AspNet.Identity.EntityFramework implementation.
 
 ```C#
@@ -125,14 +125,15 @@ namespace Dematt.Airy.Sample.WebSite.Models
     }
 }
 ```
-The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.  
+The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.
 The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.  
-The above classes would use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
+
+The above classes use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
 This matches the default configuration and schema of the Entity Framework version, and should be compatible with existing databases created using the Entity Framework version.
 
 4.  In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
 ```C#
-var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+var manager = new UserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
 ```
   - and replace with this line:
 ```C#
@@ -175,14 +176,14 @@ var sessionFactory = GetSessionFactory()
 app.CreatePerOwinContext(sessionFactory.OpenSession);
 ```
 
-If you are using a IoC container and dependency injection then when building you Nhibernate configuration before calling BuildSessionFactory you just need to add the Identity mappings like so:
+If you are using a IoC container and dependency injection then when building your Nhibernate configuration before calling BuildSessionFactory you just need to add the Identity mappings like so:
 ```C#
 var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
 configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
 ```
 
 ## Using different primary key types ##
-If you require a different primary key type for User, Role and Claim then you can replace the generic typed in the above classes as required.  
+If you require a different primary key type for User, Role and Claim then you can replace the generic types in the above classes as required.  
 Example classes using Guid for all primary keys can be found [here](https://github.com/MatthewRudolph/Airy-Identity-Nhibernate/blob/dev/samples/Dematt.Airy.Sample.WebSite/Models/GuidIdentityModels.cs)  
 Example classes using int for all primary keys can be found [here](https://github.com/MatthewRudolph/Airy-Identity-Nhibernate/blob/dev/samples/Dematt.Airy.Sample.IntWebSite/Models/IntIdentityModels.cs)  
 
