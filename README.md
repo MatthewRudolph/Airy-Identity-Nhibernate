@@ -15,25 +15,22 @@ NHibenrate implementation of the provider for ASP.Net Identity that can easily b
 * Sample ASP.Net MVC 5 project.
 
 ## Getting Started ##
-If you have the Entity Framework version of ASP.Net Identity then uninstall it using nuget.
-```Powershell
-Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
-```
-You can also uninstall Entity Framework itself unless you need it for some reason.
-```Powershell
-Uninstall-Package EntityFramework
-```
-Install the Airy Identity Nhibernate package.
+These instructions assume you know how to set up NHibernate within an MVC application.  
+They are based on the default VS2013 ASP.Net MVC 5 project with Individual User Accounts authentication type.
+
+1. Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework
+  ```Powershell
+  Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
+  Uninstall-Package EntityFramework
+  ```
+2. Install the Airy Identity Nhibernate package.
 ```Powershell
 Install-Package Dematt.Airy.Identity.Nhibernate
 ```
 
+3. Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
+These classes match the default classes and schema of the Microsoft.AspNet.Identity.EntityFramework implementation.
 
-
-The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.
-The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.
-
-A set of classes to match the default classes and schema of the Microsoft.AspNet.Identity.EntityFramework implementation would look like this:
 ```C#
 using System;
 using System.Security.Claims;
@@ -128,16 +125,90 @@ namespace Dematt.Airy.Sample.WebSite.Models
     }
 }
 ```
-
-This would use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
+The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.  
+The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.  
+The above classes would use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
 This matches the default configuration and schema of the Entity Framework version, and should be compatible with existing databases created using the Entity Framework version.
 
-If you require a different primary key type for User, Role and Claim then you can replace the keys as appropriate.  
-Example classes using Guid for all primary keys can be found here:  
-Example classes using int for all primary keys can be found here:  
-This article https://www.asp.net/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity details the other changes that will be necessary to your configuration if you change the Id type of the Identity entities.
-There are sample websites for both all Guid and all int primary keys. They are a default (VS2013) MVC web application project with the minimum changes made to support each of the primary key types.
+4.  In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
+```C#
+var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+```
+  - and replace with this line:
+```C#
+var manager = new ApplicationUserManager(new ApplicationUserStore<ApplicationUser>(context.Get<ISession>()));
+```
 
+5.  Configure Nhibernate mappings.  
+  - NHibernate
+```C#
+private ISessionFactory GetSessionFactory()
+{
+    var configuration = new Configuration();
+    configuration.Configure(HostingEnvironment.MapPath("~/Nhibernate.config"));
+    var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+    configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
+    return configuration.BuildSessionFactory();
+}
+```
+
+  - FluentNHibernate
+```C#
+private ISessionFactory GetSessionFactory()
+{
+    var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+    var configuration = Fluently.Configure()
+       .Database(/*.....*/)
+       .ExposeConfiguration(cfg => {
+           cfg.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
+        });
+    return configuration.BuildSessionFactory();
+}
+```
+Then in the ~App_Start/Startup.Auth.cs file remove the following line:  
+```C#
+app.CreatePerOwinContext(ApplicationDbContext.Create);
+```
+and add these lines:
+```C#
+var sessionFactory = GetSessionFactory()
+app.CreatePerOwinContext(sessionFactory.OpenSession);
+```
+
+If you are using a IoC container and dependency injection then when building you Nhibernate configuration before calling BuildSessionFactory you just need to add the Identity mappings like so:
+```C#
+var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
+```
+
+## Using different primary key types ##
+If you require a different primary key type for User, Role and Claim then you can replace the generic typed in the above classes as required.  
+Example classes using Guid for all primary keys can be found [here](https://github.com/MatthewRudolph/Airy-Identity-Nhibernate/blob/dev/samples/Dematt.Airy.Sample.WebSite/Models/GuidIdentityModels.cs)  
+Example classes using int for all primary keys can be found [here](https://github.com/MatthewRudolph/Airy-Identity-Nhibernate/blob/dev/samples/Dematt.Airy.Sample.IntWebSite/Models/IntIdentityModels.cs)  
+
+This article https://www.asp.net/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity details the other changes that will be necessary to your configuration if you change the Id type of the Identity entities.  
+There are sample websites for both all Guid and all int primary keys in the samples folder of the solution. They are a default (VS2013) MVC web application project with the minimum changes made to support each of the primary key types.
+
+## Customising the Identity Mappings ##
+You can customise the Identity mappings before adding them to the configuration like so:
+```C#
+// Get customise and add the identity mappings.
+var identityMappingHelper = new MappingHelper<GuidApplicationUser, Guid, GuidApplicationLogin, GuidApplicationRole, Guid, GuidApplicationClaim, Guid>();
+identityMappingHelper.Mapper.Class<GuidApplicationUser>(c =>
+{
+    c.ManyToOne(p => p.HomeAddress, m =>
+    {
+        m.NotNullable(false);
+        m.Cascade(Cascade.None);
+    });
+
+    c.Property(p => p.DisplayName, m =>
+    {
+        m.Length(50);
+    });
+});
+configuration.AddMapping(identityMappingHelper.GetMappingsToMatchEfIdentity());
+```
 
 ## Acknowledgements ##
 There is already an excellent official [NHibernate Implementation] (https://github.com/nhibernate/NHibernate.AspNet.Identity) of the ASP.Net Identity.
