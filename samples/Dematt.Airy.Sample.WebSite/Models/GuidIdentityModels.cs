@@ -9,7 +9,7 @@ using NHibernate;
 namespace Dematt.Airy.Sample.WebSite.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class GuidApplicationUser : IdentityUser<Guid, GuidApplicationLogin, GuidApplicationRole, string, GuidApplicationClaim>
+    public class GuidApplicationUser : IdentityUser<Guid, GuidApplicationLogin, GuidApplicationRole, Guid, GuidApplicationClaim>
     {
         public virtual async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<GuidApplicationUser, Guid> manager)
         {
@@ -20,11 +20,11 @@ namespace Dematt.Airy.Sample.WebSite.Models
         }
     }
 
-    public class GuidApplicationRole : IdentityRole<GuidApplicationUser, string>
+    public class GuidApplicationRole : IdentityRole<GuidApplicationUser, Guid>
     {
         public GuidApplicationRole()
         {
-            Id = Guid.NewGuid().ToString();
+
         }
 
         public GuidApplicationRole(string roleName)
@@ -39,12 +39,12 @@ namespace Dematt.Airy.Sample.WebSite.Models
 
     }
 
-    public class GuidApplicationClaim : IdentityUserClaim<GuidApplicationUser, int>
+    public class GuidApplicationClaim : IdentityUserClaim<GuidApplicationUser, Guid>
     {
 
     }
 
-    public class GuidApplicationUserStore<TUser> : UserStore<GuidApplicationUser, Guid, GuidApplicationLogin, GuidApplicationRole, string, GuidApplicationClaim, int>,
+    public class GuidApplicationUserStore<TUser> : UserStore<GuidApplicationUser, Guid, GuidApplicationLogin, GuidApplicationRole, Guid, GuidApplicationClaim, Guid>,
         IUserStore<GuidApplicationUser, Guid>
         where TUser : GuidApplicationUser
     {
@@ -54,7 +54,7 @@ namespace Dematt.Airy.Sample.WebSite.Models
         }
     }
 
-    public class GuidApplicationRoleStore<TRole> : RoleStore<GuidApplicationRole, string, GuidApplicationUser>
+    public class GuidApplicationRoleStore<TRole> : RoleStore<GuidApplicationRole, Guid, GuidApplicationUser>
         where TRole : GuidApplicationRole, new()
     {
         public GuidApplicationRoleStore(ISession context)
