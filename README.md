@@ -18,169 +18,168 @@ NHibenrate implementation of the provider for ASP.Net Identity that can easily b
 These instructions assume you know how to set up NHibernate within an MVC application.  
 They are based on the default VS2013 ASP.Net MVC 5 project with Individual User Accounts authentication type.
 
-1.  Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework.  
-```Powershell
-Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
-Uninstall-Package EntityFramework
-```
-2.  Install the Airy Identity Nhibernate package.
-```Powershell
-Install-Package Dematt.Airy.Identity.Nhibernate
-```
+  1. Uninstall the Entity Framework version of ASP.Net Identity and Entity Framework.  
+  ```Powershell
+  Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
+  Uninstall-Package EntityFramework
+  ```
 
-3.  Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
-These classes match the default classes and schema of the Microsoft.AspNet.Identity.EntityFramework implementation.
+  2. Install the Airy Identity Nhibernate package.
+  ```Powershell
+  Install-Package Dematt.Airy.Identity.Nhibernate
+  ```
 
-```C#
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Dematt.Airy.Identity;
-using Dematt.Airy.Identity.Nhibernate;
-using Microsoft.AspNet.Identity;
-using NHibernate;
+  3. Replace the contents of the ~/Models/IdentityModels.cs file with the following.  
+  These classes match the default classes and schema of the Microsoft.AspNet.Identity.EntityFramework implementation.
+  ```C#
+  using System;
+  using System.Security.Claims;
+  using System.Threading.Tasks;
+  using Dematt.Airy.Identity;
+  using Dematt.Airy.Identity.Nhibernate;
+  using Microsoft.AspNet.Identity;
+  using NHibernate;
+  
+  namespace Dematt.Airy.Sample.WebSite.Models
+  {
+      // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+      /// <summary>
+      /// The user class.
+      /// </summary>
+      public class ApplicationUser : IdentityUser<string, ApplicationLogin, ApplicationRole, string, ApplicationClaim>
+      {
+          public ApplicationUser()
+          {
+              Id = Guid.NewGuid().ToString();
+          }
+            
+          /// <summary>
+          /// This is only required if you are using the Visual Studio ASP.Net MVC template.
+          /// If you are using a dependency injection framework then you can simply inject the user manager class where it is needed instead.
+          /// </summary>
+          public virtual async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+          {
+              // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+              var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+              // Add custom user claims here
+              return userIdentity;
+          }
+      }
+  
+      /// <summary>
+      /// The role class.
+      /// </summary>
+      public class ApplicationRole : IdentityRole<ApplicationUser, string>
+      {
+          public ApplicationRole()
+          {
+              Id = Guid.NewGuid().ToString();
+          }
+            
+          public ApplicationRole(string roleName)
+              : this()
+          {
+             Name = roleName;
+          }
+      }
 
-namespace Dematt.Airy.Sample.WebSite.Models
-{
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    /// <summary>
-    /// The user class.
-    /// </summary>
-    public class ApplicationUser : IdentityUser<string, ApplicationLogin, ApplicationRole, string, ApplicationClaim>
-    {
-        public ApplicationUser()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+      /// <summary>
+      /// The login class.
+      /// </summary>
+      public class ApplicationLogin : IdentityUserLogin<ApplicationUser>
+      {
+  
+      }
+  
+      /// <summary>
+      /// The claim class.
+      /// </summary>
+      public class ApplicationClaim : IdentityUserClaim<ApplicationUser, int>
+      {
+  
+      }
+  
+      /// <summary>
+      /// The user store class.
+      /// </summary>
+      public class ApplicationUserStore<TUser> : UserStore<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>,
+          IUserStore<ApplicationUser>
+          where TUser : ApplicationUser
+      {
+          public ApplicationUserStore(ISession context)
+              : base(context)
+          {
+          }
+      }
+  
+      /// <summary>
+      /// The role store class.
+      /// </summary>
+      public class ApplicationRoleStore<TRole> : RoleStore<ApplicationRole, string, ApplicationUser>
+          where TRole : ApplicationRole, new()
+      {
+          public ApplicationRoleStore(ISession context)
+              : base(context)
+          {
+          }
+      }
+  }
+  ```
+  The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.
+  The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.  
+  
+  The above classes use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
+  This matches the default configuration and schema of the Entity Framework version, and should be compatible with existing databases created using the Entity Framework version.
 
-        /// <summary>
-        /// This is only required if you are using the Visual Studio ASP.Net MVC template.
-        /// If you are using a dependency injection framework then you can simply inject the user manager class where it is needed instead.
-        /// </summary>
-        public virtual async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
-            return userIdentity;
-        }
-    }
+  4. In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
+  ```C#
+  var manager = new UserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+  ```
+    - and replace with this line:
+  ```C#
+  var manager = new ApplicationUserManager(new ApplicationUserStore<ApplicationUser>(context.Get<ISession>()));
+  ```
 
-    /// <summary>
-    /// The role class.
-    /// </summary>
-    public class ApplicationRole : IdentityRole<ApplicationUser, string>
-    {
-        public ApplicationRole()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
-
-        public ApplicationRole(string roleName)
-            : this()
-        {
-            Name = roleName;
-        }
-    }
-
-    /// <summary>
-    /// The login class.
-    /// </summary>
-    public class ApplicationLogin : IdentityUserLogin<ApplicationUser>
-    {
-
-    }
-
-    /// <summary>
-    /// The claim class.
-    /// </summary>
-    public class ApplicationClaim : IdentityUserClaim<ApplicationUser, int>
-    {
-
-    }
-
-    /// <summary>
-    /// The user store class.
-    /// </summary>
-    public class ApplicationUserStore<TUser> : UserStore<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>,
-        IUserStore<ApplicationUser>
-        where TUser : ApplicationUser
-    {
-        public ApplicationUserStore(ISession context)
-            : base(context)
-        {
-        }
-    }
-
-    /// <summary>
-    /// The role store class.
-    /// </summary>
-    public class ApplicationRoleStore<TRole> : RoleStore<ApplicationRole, string, ApplicationUser>
-        where TRole : ApplicationRole, new()
-    {
-        public ApplicationRoleStore(ISession context)
-            : base(context)
-        {
-        }
-    }
-}
-```
-The library allow you to use you own primary key types for users, roles and claims, this means that you need to create those classes.
-The base classes in the Dematt.Airy.Identity namespace have all the required functionality your classes just need to inherit from them and provide the key types.  
-
-The above classes use the default primary key type of string for the User and Role entities and int for the claim entity, the string primary keys will be populated with a random Guid, the int one will be a assigned by the database.
-This matches the default configuration and schema of the Entity Framework version, and should be compatible with existing databases created using the Entity Framework version.
-
-4.  In the ~App_Start/IdentityConfig.cs find the following line in the public static ApplicationUserManager Create method:
-```C#
-var manager = new UserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-```
-  - and replace with this line:
-```C#
-var manager = new ApplicationUserManager(new ApplicationUserStore<ApplicationUser>(context.Get<ISession>()));
-```
-
-5.  Configure Nhibernate mappings.  
-  - NHibernate
-```C#
-private ISessionFactory GetSessionFactory()
-{
-    var configuration = new Configuration();
-    configuration.Configure(HostingEnvironment.MapPath("~/Nhibernate.config"));
-    var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
-    configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
-    return configuration.BuildSessionFactory();
-}
-```
-
+  5. Configure Nhibernate mappings.  
+    - NHibernate
+  ```C#
+  private ISessionFactory GetSessionFactory()
+  {
+      var configuration = new Configuration();
+      configuration.Configure(HostingEnvironment.MapPath("~/Nhibernate.config"));
+      var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+      configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
+      return configuration.BuildSessionFactory();
+  }
+  ```
   - FluentNHibernate
-```C#
-private ISessionFactory GetSessionFactory()
-{
-    var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
-    var configuration = Fluently.Configure()
-       .Database(/*.....*/)
-       .ExposeConfiguration(cfg => {
-           cfg.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
-        });
-    return configuration.BuildSessionFactory();
-}
-```
-Then in the ~App_Start/Startup.Auth.cs file remove the following line:  
-```C#
-app.CreatePerOwinContext(ApplicationDbContext.Create);
-```
-and add these lines:
-```C#
-var sessionFactory = GetSessionFactory()
-app.CreatePerOwinContext(sessionFactory.OpenSession);
-```
+  ```C#
+  private ISessionFactory GetSessionFactory()
+  {
+      var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+      var configuration = Fluently.Configure()
+         .Database(/*.....*/)
+         .ExposeConfiguration(cfg => {
+             cfg.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
+          });
+      return configuration.BuildSessionFactory();
+  }
+  ```
+  Then in the ~App_Start/Startup.Auth.cs file remove the following line:  
+  ```C#
+  app.CreatePerOwinContext(ApplicationDbContext.Create);
+  ```
+  and add these lines:
+  ```C#
+  var sessionFactory = GetSessionFactory()
+  app.CreatePerOwinContext(sessionFactory.OpenSession);
+  ```
 
-If you are using a IoC container and dependency injection then when building your Nhibernate configuration before calling BuildSessionFactory you just need to add the Identity mappings like so:
-```C#
-var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
-configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
-```
+  If you are using a IoC container and dependency injection then when building your Nhibernate configuration before calling BuildSessionFactory you just need to add the Identity mappings like so:
+  ```C#
+  var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+  configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
+  ```
 
 ## Using different primary key types ##
 If you require a different primary key type for User, Role and Claim then you can replace the generic types in the above classes as required.  
