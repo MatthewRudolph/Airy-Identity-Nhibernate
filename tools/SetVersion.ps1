@@ -1,8 +1,8 @@
 <##########################################################################################
-#Date: 		03 December 2015                                                              #
+#Date: 		03 December 2015 (1.0), 12 October 2016 (1.1)                                 #
 #Author: 	Matthew Rudolph                                                               #
 #Script:	Sets the version of AssemblyInfo.cs and *.nuspec files.                       #
-#Version:	1.0																              #
+#Version:	1.1																              #
 ###########################################################################################
  <#
 .SYNOPSIS
@@ -88,11 +88,12 @@ function SetAssemblyVersion()
 	$foundFiles = get-childitem .\*AssemblyInfo.cs -recurse
 	foreach( $file in $foundFiles )
 	{
-		$content = Get-Content "$file";
+		$content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8);
 		Write-Output "Patching $file";
-		$content -replace 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $fileAssemblyVersion `
-				 -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $fileFileVersion `
-				 -replace 'AssemblyInformationalVersion\("[0-9]+(\.([0-9]+|\*)){1,3}.*"\)', $fileInformationalVersion | Set-Content "$file";
+		$newContent = $content  -replace 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $fileAssemblyVersion `
+								-replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $fileFileVersion `
+								-replace 'AssemblyInformationalVersion\("[0-9]+(\.([0-9]+|\*)){1,3}.*"\)', $fileInformationalVersion;
+		[System.IO.File]::WriteAllText($file.FullName, $newContent, [System.Text.Encoding]::UTF8);
 		Write-Output "Completed patching $file";
 	}
 }

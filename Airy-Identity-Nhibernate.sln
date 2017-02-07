@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BFA5C328-999B-411D-9B86-BACA63373042}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{230D8DDD-B4F0-4D11-BDF2-FD709CACAC30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8880CD3F-8B56-4335-B407-8DAFD6FF7374}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Core", "src\Dematt.Airy.Core\Dematt.Airy.Core.csproj", "{47D83B6A-5E0E-438D-ACE0-D701CA84FD0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Identity.Nhibernate", "src\Dematt.Airy.Identity.Nhibernate\Dematt.Airy.Identity.Nhibernate.csproj", "{5A55DCCF-B3FF-4D59-B792-67938B524712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Tests", "tests\Dematt.Airy.Tests\Dematt.Airy.Tests.csproj", "{0CEB1500-B026-4639-B147-C2D96665D331}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Tests.Identity", "tests\Dematt.Airy.Tests.Identity\Dematt.Airy.Tests.Identity.csproj", "{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Sample.WebSite", "samples\Dematt.Airy.Sample.WebSite\Dematt.Airy.Sample.WebSite.csproj", "{0287871F-2A43-40D5-9B1B-C93AD834F947}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A2C8945-B936-4ED6-BFE7-6F6D165A36AC}"
+	ProjectSection(SolutionItems) = preProject
+		AiryNugetIcon128x128.png = AiryNugetIcon128x128.png
+		AiryNugetIcon32x32.png = AiryNugetIcon32x32.png
+		AiryNugetIcon48x48.png = AiryNugetIcon48x48.png
+		appveyor.yml = appveyor.yml
+		LICENSE = LICENSE
+		README.md = README.md
+		ReleaseNotes.txt = ReleaseNotes.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0A20546D-4ABA-4A57-9962-8BF59CCE6B25}"
+	ProjectSection(SolutionItems) = preProject
+		tools\CreateNugetPackages.ps1 = tools\CreateNugetPackages.ps1
+		tools\CreateSqlDatabase.ps1 = tools\CreateSqlDatabase.ps1
+		tools\ReplaceFile.ps1 = tools\ReplaceFile.ps1
+		tools\SetVersion.ps1 = tools\SetVersion.ps1
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Identity", "src\Dematt.Airy.Identity\Dematt.Airy.Identity.csproj", "{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dematt.Airy.Sample.IntWebSite", "samples\Dematt.Airy.Sample.IntWebSite\Dematt.Airy.Sample.IntWebSite.csproj", "{CF9AE846-5E04-43C8-AEAE-21298EF2810A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47D83B6A-5E0E-438D-ACE0-D701CA84FD0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47D83B6A-5E0E-438D-ACE0-D701CA84FD0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47D83B6A-5E0E-438D-ACE0-D701CA84FD0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47D83B6A-5E0E-438D-ACE0-D701CA84FD0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A55DCCF-B3FF-4D59-B792-67938B524712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEB1500-B026-4639-B147-C2D96665D331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0287871F-2A43-40D5-9B1B-C93AD834F947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF9AE846-5E04-43C8-AEAE-21298EF2810A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF9AE846-5E04-43C8-AEAE-21298EF2810A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF9AE846-5E04-43C8-AEAE-21298EF2810A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF9AE846-5E04-43C8-AEAE-21298EF2810A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{47D83B6A-5E0E-438D-ACE0-D701CA84FD0E} = {BFA5C328-999B-411D-9B86-BACA63373042}
+		{5A55DCCF-B3FF-4D59-B792-67938B524712} = {BFA5C328-999B-411D-9B86-BACA63373042}
+		{0CEB1500-B026-4639-B147-C2D96665D331} = {8880CD3F-8B56-4335-B407-8DAFD6FF7374}
+		{5614C9A1-C301-4BDD-AD72-FFDC1ED67D5B} = {8880CD3F-8B56-4335-B407-8DAFD6FF7374}
+		{0287871F-2A43-40D5-9B1B-C93AD834F947} = {230D8DDD-B4F0-4D11-BDF2-FD709CACAC30}
+		{ADF9D853-E16F-4CEC-A05B-DEDA7453FE87} = {BFA5C328-999B-411D-9B86-BACA63373042}
+		{CF9AE846-5E04-43C8-AEAE-21298EF2810A} = {230D8DDD-B4F0-4D11-BDF2-FD709CACAC30}
+	EndGlobalSection
+EndGlobal

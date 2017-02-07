@@ -57,12 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseInMemoryTest.cs" />
     <Compile Include="Domain\BaseDomainObject.cs" />
     <Compile Include="Domain\SubSimpleDomainObject.cs" />
     <Compile Include="EntityEqualityTests.cs" />
     <Compile Include="Domain\OtherDomainObject.cs" />
-    <Compile Include="NHibernatePersistenceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\SimpleDomainObject.cs" />
   </ItemGroup>
@@ -74,14 +72,6 @@
     <ProjectReference Include="..\..\src\Dematt.Airy.Core\Dematt.Airy.Core.csproj">
       <Project>{47d83b6a-5e0e-438d-ace0-d701ca84fd0e}</Project>
       <Name>Dematt.Airy.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Dematt.Airy.FluentNhibernate.Extensions\Dematt.Airy.FluentNhibernate.Extensions.csproj">
-      <Project>{5e147b32-7dfe-4205-8cbb-ecd768019f80}</Project>
-      <Name>Dematt.Airy.FluentNhibernate.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Dematt.Airy.Nhibernate.Extensions\Dematt.Airy.Nhibernate.Extensions.csproj">
-      <Project>{279e2667-ab36-491b-a7e5-0002925238ab}</Project>
-      <Name>Dematt.Airy.Nhibernate.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

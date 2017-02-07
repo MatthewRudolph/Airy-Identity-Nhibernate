@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Dematt.Airy.Identity.Nhibernate;
 using Dematt.Airy.Sample.WebSite.Models;
@@ -39,10 +40,10 @@ namespace Dematt.Airy.Sample.WebSite
 
         /// <summary>
         /// Creates/Updates the database schema.
-        /// </summary>        
+        /// </summary>
         private void BuildSchema()
         {
-            // Build the schema.            
+            // Build the schema.
             var schemaUpdate = new SchemaUpdate(_configuration);
 
             // Create/Update the schema.
@@ -56,7 +57,7 @@ namespace Dematt.Airy.Sample.WebSite
         {
             if (DefaultSessionFactory == null)
             {
-                var mappingHelper = new MappingHelper<ApplicationUser, string, ApplicationLogin, ApplicationRole, string, ApplicationClaim, int>();
+                var mappingHelper = new MappingHelper<GuidApplicationUser, Guid, GuidApplicationLogin, GuidApplicationRole, Guid, GuidApplicationClaim, Guid>();
                 _configuration.AddMapping(mappingHelper.GetMappingsToMatchEfIdentity());
                 DefaultSessionFactory = _configuration.BuildSessionFactory();
             }

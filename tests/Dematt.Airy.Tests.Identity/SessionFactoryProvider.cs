@@ -15,6 +15,9 @@ namespace Dematt.Airy.Tests.Identity
     {
         private readonly Configuration _configuration;
 
+        /// <summary>
+        /// Default constructer, builds a session factory looking in the app.config, web.config or hibernate.cfg.xml for config details.
+        /// </summary>
         public SessionFactoryProvider()
         {
             _configuration = new Configuration();
@@ -22,6 +25,9 @@ namespace Dematt.Airy.Tests.Identity
             CreateNHibernateSessionFactory();
         }
 
+        /// <summary>
+        /// Builds a session factory using the supplied configuration file.
+        /// </summary>      
         public SessionFactoryProvider(string nHhibernateConfigFile)
         {
             _configuration = new Configuration();
@@ -69,7 +75,7 @@ namespace Dematt.Airy.Tests.Identity
 
                 // Build and add the mappings for ASP.Net Identity entities.
                 var mappingHelper = new MappingHelper<TestUser, string, TestLogin, TestRole, string, TestClaim, int>();
-                // Customise the ASP.Net Identity User mapping before adding the mappings to the configuration.
+                // YOU CAN customise the ASP.Net Identity User mapping if required, before adding the mappings to the configuration.
                 mappingHelper.Mapper.Class<TestUser>(u =>
                 {
                     u.Bag(x => x.CarsAvailable, c =>
